@@ -32,6 +32,8 @@ for k = 1:6
     ss_rand = ss_rand + b(k,Vpp)*sin(2*pi*(2*k-1)*(f/fs)*n + phi(k));
 end
 
+sound(.1*ss_rand,fs);  
+
 % Gráficos
 subplot 211
 plot(n/fs,ss);
@@ -47,7 +49,7 @@ xlim([0 1/f*3]) %3 periodos
 
 % Audio
 %sound(.1*ss,fs); %Se ocupo menos volumen por uso de audífonos
-sound(.1*ss,fs);  %Se ocupo menos volumen por uso de audífonos
+%sound(.1*ss,fs);  %Se ocupo menos volumen por uso de audífonos
 
 
 %FUNCTIONS
