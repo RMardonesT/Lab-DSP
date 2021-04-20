@@ -86,7 +86,14 @@ for i = 1:5
 end
 end
 
+%% Parte 3
+N = 2^1;
 
+new_data1 = cuantiza_dither(data1,2);
+new_data2 = cuantiza_dither(data2,2);
+
+%soundsc(new_data1,fs) %musica no se aprecia nada
+soundsc(new_data2,fs) %sonidos de voz se aprecia 
 
 
 %% funciones cuantiza
@@ -105,6 +112,23 @@ function [y,e] = cuantiza2(x,N)
    e = y-x; 
    
 end
+
+
+function dither =  cuantiza_dither(x,N)
+     D = (max(x)- min(x))/(N-1);
+     
+     ruido = 0.25*D*randn(length(x),1) %randn distriucion normal-> varianza 1
+     
+     x_noise = x + ruido
+     
+     D_noise = (max(x_noise)- min(x_noise))/(N-1);
+     
+     dither = round((x_noise - min(x_noise ))/D_noise);
+     
+     
+    
+end
+
 
 
 
