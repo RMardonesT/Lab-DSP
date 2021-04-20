@@ -5,7 +5,7 @@ load('aliasing_test_16_16.mat', 'Fs'); %Fs definition
 
 %soundsc(aliasing_test,Fs);
 
-n = length(aliasing_test)
+n = length(aliasing_test);
 n2 = round(n/2);
 n3 = round(n/3);
 
@@ -29,5 +29,5 @@ for i = 3:3:n
     
 end
 
-%soundsc(aliasing_3n, Fs/3);
+soundsc(aliasing_3n, Fs/3);
 spectrogram(aliasing_test, 256, [], [], Fs, 'yaxis')
