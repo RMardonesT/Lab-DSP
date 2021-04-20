@@ -164,9 +164,6 @@ subplot 212
 plot(l_v1, r_v1)
 title("Autocorrelación de error de cuantización usando 1 bits - sonidos_voz\_16\_16.wav");
 xlabel("Amplitud");ylabel("Muestras")
-
-
-
 %% Functions
 function x_q = cuantiza(x,N)
     delta = (max(x)- min(x))/(N - 1);
@@ -177,4 +174,11 @@ function [x_q,e] = cuantiza2(x,N)
     delta = (max(x)- min(x))/(N - 1);
     x_q = round((x - min(x))/delta)*delta + min(x); 
     e = x_q-x;
+end 
+
+function x_q = cuantiza_dither(x,N)
+    delta = (max(x)- min(x))/(N - 1);
+    x2 = x + 0.25*delta*randn(length(x),1);
+    delta = (max(x2)- min(x2))/(N - 1);
+    x_q = round((x2 - min(x2))/delta); 
 end 
