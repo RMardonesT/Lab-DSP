@@ -3,7 +3,7 @@ clear all
 load('aliasing_test_16_16.mat', 'aliasing_test'); %aliasing_test  definition
 load('aliasing_test_16_16.mat', 'Fs'); %Fs definition
 
-%soundsc(aliasing_test,Fs);
+soundsc(aliasing_test,Fs);
 
 n = length(aliasing_test);
 n2 = round(n/2);
@@ -17,7 +17,7 @@ for i = 2:2:n
     
 end
 
-%soundsc(aliasing_2n, Fs/2);
+soundsc(aliasing_2n, Fs/2);
 
 
 %% Downsompling con D = 3
@@ -30,4 +30,18 @@ for i = 3:3:n
 end
 
 soundsc(aliasing_3n, Fs/3);
+
+
+%subplot(3,1,1)
+
 spectrogram(aliasing_test, 256, [], [], Fs, 'yaxis')
+% title("aliasing-test-16-16.mat original")
+% 
+% subplot(3,1,2)
+% spectrogram(aliasing_2n, 256, [], [], Fs, 'yaxis')
+% title("aliasing-test-16-16.mat cada 2n muestras")
+% 
+% subplot(3,1,3)
+% spectrogram(aliasing_3n, 256, [], [], Fs, 'yaxis')
+% title("aliasing-test-16-16.mat 1 de cada 3 muestras")
+
