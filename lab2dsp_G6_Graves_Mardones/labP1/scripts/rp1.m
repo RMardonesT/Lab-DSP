@@ -16,13 +16,17 @@ plot(4400:6001,sh, "black")
 audiowrite('Lab2p1_vocal.wav', e, Fs);
 
 %1.2
-select_wav(besh,Fs);
+select_wav('besh.wav','Lab2p1_segmento_vocal.wav');
+
+%% 1.3
+select_wav('gtr-jazz_16_48.wav','Lab2p1_arpegio.wav');
 %% Funciones
-function select_wav(signal, Fs)
+function select_wav(input_name, output_name)
+    [signal, Fs] = audioread(input_name);
     figure;plot(signal)
     xlabel('Muestras'); ylabel('Amplitud');
     title('Seleccione 2 instantes para guardar audio')
     [x,~] = ginput(2);
     close
-    audriowrite('Lab2p1_segmento_vocal.wav',signal,)
+    audiowrite(output_name,signal(round(x(1)):round(x(2))),Fs)
 end
