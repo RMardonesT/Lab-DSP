@@ -81,23 +81,23 @@ subplot(2,1,1)
 plot(l,r)
 hold on
 plot(le,re)
-ylabel("Amplitud");xlabel("Muestras")
-
-title({'Autocorrelación del error de cuantización ','y correlación de error con la señal original usando 2 bits - musica\_16\_16.wav'})
+xlabel("Amplitud");ylabel("Muestras")
+title({'First line';'Second line'})
+title("Autocorrelación del error de cuantización ycorrelación de error con la señal original usando 2 bits - musica\_16\_16.wav")
 
 [y,e] = cuantiza2(data1,N_12);
 [re,le] = xcorr(e,200, 'unbiased');
 [r,l] = xcorr(e,data1,200, 'unbiased');
-legend("Autocorrelación del error","Correlación del error con la señal original")
+legend("Autocorrelación del error","Correlación del error con la señal cuantizada")
 
 
 subplot(2,1,2)
 plot(l,r)
 hold on
 plot(le,re)
-ylabel("Amplitud");xlabel("Muestras")
-title({'Autocorrelación del error de cuantización ','y correlación de error con la señal original usando 12 bits - musica\_16\_16.wav'})
-legend("Autocorrelación del error","Correlación del error con la señal original")
+xlabel("Amplitud");ylabel("Muestras")
+title("Autocorrelación y correlación de error de cuantización usando 12 bits - musica\_16\_16.wav")
+legend("Autocorrelación del error","Correlación del error con la señal cuantizada")
 
 %% Parte 3
 N = 2^1;
