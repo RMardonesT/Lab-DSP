@@ -24,3 +24,14 @@ g4 = stem(t1,y1,"m"); g4.LineWidth = 4;
 xlim([0 60]);
 xlabel("tiempo s"); ylabel("Amplitud");
 title("Resultado de plot y stem en señal y(t) con 1/5 de muestras")
+
+figure(2)
+
+subplot(2,1,1)
+stairs(y)
+xlabel("Tiempo "); ylabel("Amplitud");
+title("Gráfica se la señal y(y) usando el comando stairs(y)")
+subplot(2,1,2)
+plot(y)
+xlabel("Tiempo "); ylabel("Amplitud");
+title("Gráfica se la señal y(y) usando el comando plot(y)")

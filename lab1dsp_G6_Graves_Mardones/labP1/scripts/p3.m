@@ -28,20 +28,22 @@ xlabel("tiempo s");ylabel("Amplitud");title("Señal s_{500}(t) vs tiempo")
 %     - s21: suma de seno de 50 y 500 Hz
 %     - s22: suma de seno de 200 y 300 Hz
 %     - A  : Acorde La mayor, suma de seno de 880,1100 y 1320 Hz
+
+
 s21 = s50+s500;
 figure(2)
 subplot 311
 plot (n/fs,s21); xlim([0 0.05]);
 xlabel("tiempo s");ylabel("Amplitud");
 title("s_{50}(t) + s_{500}(t)  vs tiempo")
-%soundsc(s21,fs);
+soundsc(s21,fs);
 
 subplot 312
 s22 = sin(2*pi*(200/fs)*n) +sin(2*pi*(300/fs)*n);
 plot (n/fs,s22); xlim([0 0.05]);
 xlabel("tiempo s");ylabel("Amplitud");
 title("s_{200}(t) + s_{300}(t)  vs tiempo")
-%soundsc(s22,fs);
+soundsc(s22,fs);
 
 subplot 313
 A = sin(2*pi*(880/fs)*n) +sin(2*pi*(1100/fs)*n)+sin(2*pi*(1320/fs)*n);

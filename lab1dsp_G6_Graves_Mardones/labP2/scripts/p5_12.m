@@ -89,7 +89,7 @@ end
 end
 
 %% Parte 3
-N = 2^1;
+N = 2^12;
 
 new_data1 = cuantiza_dither(data1,2);
 new_data2 = cuantiza_dither(data2,2);
@@ -115,19 +115,17 @@ function [y,e] = cuantiza2(x,N)
 end
 
 
-function dither =  cuantiza_dither(x,N)
+function dither = cuantiza_dither(x,N)
      D = (max(x)- min(x))/(N-1);
      
      ruido = 0.25*D*randn(length(x),1) %randn distriucion normal-> varianza 1
      
-     x_noise = x + ruido
+     x_noise = x + ruido               %Se le agrega ruido a la señal
      
-     D_noise = (max(x_noise)- min(x_noise))/(N-1);
+     D_noise = (max(x_noise)- min(x_noise))/(N-1);  %Se recalcula el paso de cuantización
      
-     dither = round((x_noise - min(x_noise ))/D_noise);
+     dither = round((x_noise - min(x_noise ))/D_noise); %Cuantización con Dithering
      
-     
-    
 end
 
 

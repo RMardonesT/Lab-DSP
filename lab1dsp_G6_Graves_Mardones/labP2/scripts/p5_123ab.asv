@@ -68,23 +68,36 @@ hist(e2,20)
 
 %% Parte 2c
 
-%plot(l,r)
-bits = [1 2 4 8 12];
-while(1)
-for i = 1:5
-    N = bits(i);
+
+
+N_2 = 2;
+N_12 = 12;
     
-    [y,e] = cuantiza2(data1,N);
-    [re,le] = xcorr(e,200, 'unbiased');
-    [r,l] = xcorr(e,y,200, 'unbiased');
-    plot(l,r)
-    hold on
-    plot(le,re)
-    pause(2)
-    close
-    
-end
-end
+[y,e] = cuantiza2(data1,N_2);
+[re,le] = xcorr(e,200, 'unbiased');
+[r,l] = xcorr(e,data1,200, 'unbiased');
+
+subplot(2,1,1)
+plot(l,r)
+hold on
+plot(le,re)
+xlabel("Amplitud");ylabel("Muestras")
+title({'First line';'Second line'})
+title("Autocorrelación del error de cuantización ycorrelación de error con la señal original usando 2 bits - musica\_16\_16.wav")
+
+[y,e] = cuantiza2(data1,N_12);
+[re,le] = xcorr(e,200, 'unbiased');
+[r,l] = xcorr(e,data1,200, 'unbiased');
+legend("Autocorrelación del error","Correlación del error con la señal cuantizada")
+
+
+subplot(2,1,2)
+plot(l,r)
+hold on
+plot(le,re)
+xlabel("Amplitud");ylabel("Muestras")
+title("Autocorrelación y correlación de error de cuantización usando 12 bits - musica\_16\_16.wav")
+legend("Autocorrelación del error","Correlación del error con la señal cuantizada")
 
 %% Parte 3
 N = 2^1;
