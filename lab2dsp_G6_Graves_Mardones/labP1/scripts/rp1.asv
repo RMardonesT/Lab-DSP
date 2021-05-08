@@ -13,7 +13,7 @@ plot(4400:6001,sh, "black")
 title("Extracciones de porciones de audio en achivo besh.wav")
 xlabel("Muestras");
 ylabel("Amplitud");
-legend("besh.wav","/\epsilon/","sh");
+
 
 
 audiowrite('Lab2p1_vocal.wav', e, Fs);
@@ -31,6 +31,5 @@ function select_wav(input_name, output_name)
     title('Seleccione 2 instantes para guardar audio')
     [x,~] = ginput(2);
     close
-    wav = signal(round(x(1)):round(x(2)));
-    audiowrite(output_name,wav,Fs)
+    audiowrite(output_name,signal(round(x(1)):round(x(2))),Fs)
 end
