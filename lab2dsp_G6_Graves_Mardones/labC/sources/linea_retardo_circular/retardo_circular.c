@@ -55,13 +55,13 @@ double retardo_lineal(double input) {
 
 	static double buffer[n]; //{actual, 1 retardo, 2 retardos...} 
 
-	/*static bool flag = true;
+	static bool flag = true;
 	if (flag) {
 		for (int i = 0; i < n; i++) {
 			buffer[i] = 0;
 		}
 		flag = false;
-	}*/
+	}
 
 	double output = buffer[n - 1];
 
