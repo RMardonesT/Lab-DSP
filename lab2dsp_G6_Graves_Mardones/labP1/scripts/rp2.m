@@ -8,6 +8,9 @@ alpha = .2; beta = .05; Gi = 1; Go = 1;
 gtr_ov = overdrive('gtr-jazz_16_48.wav', alpha, beta, Gi, Go); 
 audiowrite('gtr-ov_a02b005Gi1Go1.wav',gtr_ov,Fs);
 
+musica_ov = overdrive('gtr-jazz_16_48.wav', alpha, beta, Gi, Go); 
+audiowrite('musica_16-44p1.wav',gtr_ov,Fs);
+
 figure
 plot(gtr(:,1));hold on; plot(gtr_ov(:,1));
 xlabel("Muestras"); ylabel("Amplitud"); 
@@ -90,11 +93,6 @@ function  y = overdrive(file_name, alpha, beta, Gi,G0)
         else
             y2_ch2(i) = x2_ch2(i);
         end
-
-
-
-
     end
-
     y = [y2_ch1 , y2_ch2];
 end

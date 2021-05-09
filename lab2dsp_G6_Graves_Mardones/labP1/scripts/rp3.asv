@@ -54,14 +54,12 @@ q = 3;
 x_16 = resample(x,p,q);
 
 Fs2 = 16000;
-T = 1/Fs2;
-M = round(0.250/T); %Se divide en 3
-audiowrite("gtr-jazz_resample-16.wav",x_16,Fs2);
+T = Fs2;
+M = 0.125/T; %Se divide en 3
+audiowrite("gtr-jazz_resample-16.wav",Fs2);
+[y_16,Fs2] = delay_multitap(audiofile,outputname, N, M, b)
 
-audiofile = "gtr-jazz_resample-16.wav";
-outputname = "gtr-jazz_resample-16_delay.wav";
 
-[y_16,Fs2] = delay_multitap(audiofile,outputname, N, M, b);
 
 
 function [y,Fs] = delay_multitap(audiofile,outputname, N, M, b)
