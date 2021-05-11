@@ -1,12 +1,12 @@
 % Instanciación del objeto
 def = legacy_code('initialize');
 % Nombre de la s-function
-def.SFunctionName = 'retardo_lineal';
+def.SFunctionName = 'retardo_circular';
 % Protiotipo de la función
 % Notar es información para Matlab, y el solo acepta nombres de entrada u1,
 % u2, etc, y salida y1
 % Usar el nombre de la función en C que implementó
-def.OutputFcnSpec = 'double y1 = retardo_lineal(double u1)';
+def.OutputFcnSpec = 'double y1 = retardo_circular(double u1)';
 % Archivo de cabecera
 def.HeaderFiles = {'template.h'};
 % Archivo fuente en C
