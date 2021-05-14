@@ -47,7 +47,11 @@ B = fir1(40, 1/P);
 filtered =  filter(B,1,upsampled);
 
 %%
+<<<<<<< Updated upstream
 mag1 = abs(fftshift(fft(aliasing,N1)));
+=======
+mag1 = abs(fftshift(fft(aliasing)));
+>>>>>>> Stashed changes
 w1 = (-N1/2:N1/2-1)/N1*2*pi;
 
 N2 = length(upsampled);
@@ -63,21 +67,59 @@ w3 = (-N3/2:N3/2-1)/N3*2*pi;
 
 subplot(3,1,1)
 plot(w1,mag1);
-xlim([-pi,pi])
 xlabel("Frecuencia normalizada [rad/muestra]")
 ylabel("Magnitud [-]")
 title("Señal original")
+xlim([-2.5,2.5])
 
 subplot(3,1,2)
 plot(w2,mag2);
-xlim([-pi,pi])
 xlabel("Frecuencia normalizada [rad/muestra]")
 ylabel("Magnitud [-]")
 title("Señal luego de sufrir upsampling")
+xlim([-2.5,2.5])
 
 subplot(3,1,3);
-plot(w3,mag3)
-xlim([-pi,pi])
+plot(w3,mag3);
 xlabel("Frecuencia normalizada [rad/muestra]")
 ylabel("Magnitud [-]")
 title("Resultado luego de sufrir upsampling y filtrado")
+xlim([-2.5,2.5])
+
+%% Kronecker
+
+clear all; close all; clc;
+
+t = 0:1:40
+delta = double(kroneckerDelta(sym(t),19));
+
+y = interpola(delta,3);
+
+
+subplot(4,1,1)
+stem(delta)
+title("Delta de Kronecker")
+ylabel("Magnitud")
+xlabel("Muestras")
+
+subplot(4,1,2)
+stem(y) 
+title("Interpolación a Delta de Kronecker considerando retardo de grupo usando  stem")
+ylabel("Magnitud")
+xlabel("Muestras")
+
+
+subplot(4,1,3)
+stem(y(39:end)) 
+title("Interpolación a Delta de Kronecker eliminando retardo de grupo usando  stem")
+ylabel("Magnitud")
+xlabel("Muestras")
+
+subplot(4,1,4)
+plot(y(39:end)) 
+title("Interpolación lineal a Delta de Kronecker  usando plot")
+ylabel("Magnitud")
+xlabel("Tiempo")
+
+
+
