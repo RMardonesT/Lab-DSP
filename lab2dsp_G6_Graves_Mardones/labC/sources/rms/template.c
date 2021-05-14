@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * \file     Funciones que deben impementar los alumnos
 *
-* \brief    Plantilla para crear función en C para una sFunction de Matlab
+* \brief    Plantilla para crear funciï¿½n en C para una sFunction de Matlab
 *
 * \authors  Gonzalo Carrasco
 *******************************************************************************/
@@ -16,7 +16,7 @@
 /******************************************************************************
 **      MODULE PREPROCESSOR CONSTANTS
 ******************************************************************************/
-#define n (20000) 
+#define N 320  // Ts = 1/16kps = 62 us -> n = 20ms/62us = 320
 
 /******************************************************************************
 **      MODULE MACROS
@@ -43,73 +43,43 @@
 ******************************************************************************/
 
 /***************************************************************************//**
-*   \brief Implementación de linea de retardo mediante buffer lineal
+*   \brief Implementaciï¿½n de linea de retardo mediante buffer lineal
 *
-*   \param  input : Arreglo de datos de la señal
+*   \param  input : Arreglo de datos de la seï¿½al
 *	\param  n     : Muestras del Retardo
 *
 *   \return Void.
 *******************************************************************************/
-double retardo_lineal(double input) {
-	// Buffer lineal
 
-	static double buffer[n]; //{actual, 1 retardo, 2 retardos...} 
 
-	/*static bool flag = true;
-	if (flag) {
-		for (int i = 0; i < n; i++) {
-			buffer[i] = 0;
-		}
-		flag = false;
-	}*/
+double rms_20ms(double input) {
 
-	double output = buffer[n - 1];
+	static double buffer = 0;
+	static unsigned int cont = 0;
+	static double output = 0;
 
-	for (int idx = n - 2; idx >= 1; idx--) {
-		buffer[idx + 1] = buffer[idx];
+	buffer = buffer + pow(input,2); //eleva la muestra al cuadrado y la guarda en la sumatoria
+
+	if (cont >= N)    //reinicia el buffer y entrega el rms acumulado hasta ese momento
+	{
+		buffer = buffer/N;  //
+		output = sqrt(buffer);
+		buffer = 0;
+		cont = 0;
 	}
-	buffer[0] = input;
+	else
+		{
+			cont ++;
+		}
+
 
 	return output;
 }
 
 
 
-	/*static double* buffer = (double*)malloc( n * sizeof(double));
 
 
-	static bool flag = true;
-
-	if (flag) {
-		for (int i = 0; i < n; i++) {
-			*(buffer + i) = 0;
-		}
-		flag = false;
-	}
-	 
-
-	double* idx = NULL;
-
-	double output = &(buffer + (n - 1));
-
-	for (int i = n-2; i >= 1; i--) {
-		idx = buffer + i;
-		*idx = *idx -1;	
-	}
-
-	*buffer = input;
-
-	return output;
-}*/
-
-
-/*double funcion(double input)
-{
-	double output = 0.0;
-	
-	output = 2.5 * input;
-	return output;
-}*/
 
 
 
