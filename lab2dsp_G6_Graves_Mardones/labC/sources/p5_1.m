@@ -1,5 +1,7 @@
 
 clear, close all, clc
+
+%% Señal random de 10 muestras
 x = rand(10,1);
 P = 7;
 y = interpola(x,P);
@@ -24,18 +26,5 @@ ylabel("Magnitud")
 title("Señal aleatoria de 10 muestras generada y su interpolación")
 legend("Muestras interpoladas sin retardo de grupo", "Muestras se la señal original")
 
-%%Función de interpolación
+%% aliasing_test P = 3
 
-function y = interpola(x,P)
-    y = [];
-    N = length(x);
-
-    for i = 1:N
-        y = horzcat(y, x(i), zeros(1,P-1));
-    end
-
-    B = fir1(40, 1/P);
-    y = filter(B,1,y);
-    
-    y = P*y; %corrección de magnitud
-end
