@@ -94,15 +94,14 @@ static double filterBiquad(bqState_t *filterNState, double filterInput)
 
   //y[n] = -a1*y[n] -a2*y[n-2] + b0*x[n] + b1*x[n-1] + b2*x[n-2]
 
-  double y = - filterNState->bqA1*filterNState->bqOutput[1]
-             - filterNState->bqA2*filterNState->bqOutput[2]
-             + filterNState->bqB0*filterNState->bqInput[0]
-             + filterNState->bqB1*filterNState->bqInput[1]
-             + filterNState->bqB2*filterNState->bqInput[2];
+  double w =   filterNState->bqB0*filterNState->bqInput[0]
+              + filterNState->bqB1*filterNState->bqInput[1]
+              + filterNState->bqB2*filterNState->bqInput[2];
 
-
-
-
+  double y = w
+            - filterNState->bqA1*filterNState->bqOutput[1]
+            - filterNState->bqA2*filterNState->bqOutput[2]
+            
   filterNState->bqOutput[0] = y;
   return y;
 
