@@ -12,5 +12,5 @@ function [a, b, d_2] = notch(BW, theta)
     
     % Obtención de retornos
     b = (1+d)/2*[1 -2*cos(theta) 1];
-    a = [1 (1+d)*cos(theta) d];
+    a = [1 -(1+d)*cos(theta) d];
 end
