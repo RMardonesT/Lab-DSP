@@ -51,7 +51,7 @@ bqState_t Notch440 = {
 
                       {0 ,0 ,0}, //Inputs buffer
                       {0,0,0} //Outputs buffer
-                      }
+                    };
 
 
 
@@ -71,7 +71,7 @@ extern double notch(double);
 
 extern double notch(double data)
 {
-  return filterBiquad(&Notch440 , u1);
+  return filterBiquad(&Notch440 , data);
 }
 
 /******************************************************************************
@@ -85,20 +85,23 @@ extern double notch(double data)
 static double filterBiquad(bqState_t *filterNState, double filterInput)
 {
   //Desplazamiento de datos en la linea de retardo de tamaño 3
-  filterNState->bqInput[2] = filterInput->bqInput[1];
-  filterNState->bqInput[1] = filterInput->bqInput[0];
-  filterNState->bqInput[0] = filterInput->bqInput;
+  filterNState->bqInput[2] = filterNState->bqInput[1];
+  filterNState->bqInput[1] = filterNState->bqInput[0];
+  filterNState->bqInput[0] = filterInput;
 
-  filterNState->bqOutput[2] = filterOutput->bqOutput[1];
-  filterNState->bqOutput[1] = filterOutput->bqOutput[0];
+  filterNState->bqOutput[2] = filterNState->bqOutput[1];
+  filterNState->bqOutput[1] = filterNState->bqOutput[0];
 
   //y[n] = -a1*y[n] -a2*y[n-2] + b0*x[n] + b1*x[n-1] + b2*x[n-2]
 
-  double y = -filterNState->bqA1 *bqOutput[1] + filterNState->bqA2*bqOutput[2]
-             +filterNState->bqB0*bqInput[0] +  filterNState->bqB1*bqInput[1] + filterNState->bqB2*bqInput[2];
+  double w =   filterNState->bqB0*filterNState->bqInput[0]
+              + filterNState->bqB1*filterNState->bqInput[1]
+              + filterNState->bqB2*filterNState->bqInput[2];
 
-
-
+  double y = w
+            - filterNState->bqA1*filterNState->bqOutput[1]
+            - filterNState->bqA2*filterNState->bqOutput[2]
+            
   filterNState->bqOutput[0] = y;
   return y;
 
