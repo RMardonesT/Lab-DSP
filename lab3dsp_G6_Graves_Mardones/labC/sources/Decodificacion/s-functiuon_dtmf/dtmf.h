@@ -39,8 +39,8 @@
 extern "C" {
 #endif
 /*****************************************************************************/
-// Declaración de Funciones 
-void decodeDtmf(double input1, int32_t *output1);
+// Declaración de Funciones
+extern  int32_t decodeDtmf(double input1, int32_t *output1);
 
 /*****************************************************************************/
 #ifdef __cplusplus
@@ -50,4 +50,3 @@ void decodeDtmf(double input1, int32_t *output1);
 /******************************************************************************
 **      END OF HEADER FILE
 ******************************************************************************/
-
