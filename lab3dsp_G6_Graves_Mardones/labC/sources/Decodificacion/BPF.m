@@ -1,3 +1,5 @@
+
+
 function [a, b] = BPF(BW, theta)    
     
     %Polinomio:
@@ -12,6 +14,6 @@ function [a, b] = BPF(BW, theta)
     end
     
     % Obtención de retornos
-    b = (1+d)/2*[1 -2*cos(theta) 1];
+    b = (1+d)/2*[1 0 1];
     a = [1 -(1+d)*cos(theta) d];
 end
