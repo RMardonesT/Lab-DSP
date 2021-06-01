@@ -1,11 +1,11 @@
 %%%%% Parte II Lab 4 DSP
-% ¡ACTUALIZAR n! en linea 8 y 43 usando wgn()
+
 close all; clear; clc
 
 Fs = 2000; Ts = 1/Fs; t = 0:Ts:0.1-Ts; N = length(t);
 
 % ruido, actualizar a gaussiano
-n = sqrt(1/0.0909)*(rand(1,N)-.5); %wgn(1,length(t),)
+n = sqrt(1/0.0909)*wgn(1,length(t) ,2,"linear"); %wgn(1,length(t),)
 var(n)
 
 % señal limpia
@@ -40,7 +40,7 @@ title("Contenido en frecuencia de señal ruidosa en dB (0.1s)");
 %1s
 Fs = 2000; Ts = 1/Fs; t = 0:Ts:1-Ts; N = length(t);
 
-n = sqrt(1/0.0909)*(rand(1,N)-.5); var(n)     % rudio wgn(1,length(t),)
+n = sqrt(1/0.0909)*wgn(1,length(t) ,2,"linear"); var(n)     % rudio wgn(1,length(t),)
 s = .5*cos(2*pi*100*t) + 1.5*sin(2*pi*500*t); % señal limpia
 sn = s + n;                                   % señal con ruido
 
