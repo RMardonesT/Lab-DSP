@@ -1,8 +1,0 @@
-n = 0:1:500;
-N
-x1 = sin(2*pi*n/50);
-x2 = cos(2*pi*n/50);
-
-figure(1)
-subplot(2,1,1)
-)
