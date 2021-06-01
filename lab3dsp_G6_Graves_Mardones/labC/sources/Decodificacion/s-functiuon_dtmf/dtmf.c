@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * \file     Funciones que deben impementar los alumnos
 *
-* \brief    
+* \brief
 *
 * \authors  Gonzalo Carrasco
 *******************************************************************************/
@@ -48,8 +48,8 @@ typedef struct bqState_t {
 /*---------------------------------------------------------------------------*/
 /* VARABLES DECTOR DTMF */
 /*---------------------------------------------------------------------------*/
-/* Señales de salida para cada filtro */
-double gDtmfTones[7]] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+/* Seï¿½ales de salida para cada filtro */
+double gDtmfTones[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 int32_t gFramePos = 0;
 double gTonesAmplitud[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
@@ -59,41 +59,169 @@ double gTonesAmpAux[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 /* VARABLES BPF */
 /*---------------------------------------------------------------------------*/
 
+bqState_t BPF0 = {
+                      -1.903126979607119,  // a1
+                      0.976711340720306, // a2
+                       0.988355670360153 , //b0
+                      0, //b1
+                      0.988355670360153,  //b2
+
+                      {0 ,0 ,0}, //Inputs buffer
+                      {0,0,0} //Outputs buffer
+                    };
+
+bqState_t BPF1 = {
+                       -1.887029833673787,  // a1
+                      0.976711340720306, // a2
+
+                       0.988355670360153 , //b0
+                      0, //b1
+                      0.988355670360153,  //b2
+
+                      {0 ,0 ,0}, //Inputs buffer
+                      {0,0,0} //Outputs buffer
+                    };
+
+bqState_t BPF2 = {
+                       -1.867099603225501,  // a1
+                       0.976711340720306, // a2
+
+                       0.988355670360153 , //b0
+                      0, //b1
+                     0.988355670360153,  //b2
+
+                      {0 ,0 ,0}, //Inputs buffer
+                      {0,0,0} //Outputs buffer
+                    };
+
+bqState_t BPF3 = {
+                      -1.829076081417365,  // a1
+                      0.961481451595328, // a2
+
+                       0.980740725797664 , //b0
+                      0, //b1
+                     0.980740725797664,  //b2
+
+                      {0 ,0 ,0}, //Inputs buffer
+                      {0,0,0} //Outputs buffer
+                    };
+
+bqState_t BPF4 = {
+                     -1.744534596215547,  // a1
+                     0.961481451595328, // a2
+
+                       0.980740725797664  , //b0
+                      0, //b1
+                    0.980740725797664,  //b2
+
+                      {0 ,0 ,0}, //Inputs buffer
+                      {0,0,0} //Outputs buffer
+                    };
+
+bqState_t BPF5 = {
+                     -1.697664805622379,  // a1
+                      0.961481451595328, // a2
+
+                       0.980740725797664  , //b0
+                      0, //b1
+                    0.980740725797664,  //b2
+
+                      {0 ,0 ,0}, //Inputs buffer
+                      {0,0,0} //Outputs buffer
+                    };
+
+bqState_t BPF6 = {
+                     -1.640688189104886,  // a1
+                    0.961481451595328, // a2
+
+                        0.980740725797664   , //b0
+                      0, //b1
+                   0.980740725797664 ,  //b2
+
+                      {0 ,0 ,0}, //Inputs buffer
+                      {0,0,0} //Outputs buffer
+                    };
+
+
 
 /******************************************************************************
 **      PRIVATE FUNCTION DECLARATIONS (PROTOTYPES)
 ******************************************************************************/
 void envelopeDetector(double *tonesInputs);
 int32_t dtmfDetection(double *tonesInputs);
-
+static double filterBiquad(bqState_t *filterNState, double filterInput);
 
 /******************************************************************************
 **      FUNCTION DEFINITIONS
 ******************************************************************************/
 
-/***************************************************************************//**
-*   \brief 
+/******************************************************************************
+*   \brief  Esta funciÃ³n implementa una etapa de filtro biquad
 *
-*   \param  input : 
+*   \param filterNState     : puntero a la estructura del biquad a ejecutar
+*   \param filterInput          : seÃ±al de entrada al filtro biquad a ejecutar
+*
+*   \return filterOutput        : seÃ±al de salida del filtro biquad ejecutado
+******************************************************************************/
+
+static double filterBiquad(bqState_t *filterNState, double filterInput)
+{
+  //Desplazamiento de datos en la linea de retardo de tamaÃ±o 3
+  filterNState->bqInput[2] = filterNState->bqInput[1];
+  filterNState->bqInput[1] = filterNState->bqInput[0];
+  filterNState->bqInput[0] = filterInput;
+
+  filterNState->bqOutput[2] = filterNState->bqOutput[1];
+  filterNState->bqOutput[1] = filterNState->bqOutput[0];
+
+  //y[n] = -a1*y[n] -a2*y[n-2] + b0*x[n] + b1*x[n-1] + b2*x[n-2]
+
+  double w =   filterNState->bqB0*filterNState->bqInput[0]
+              + filterNState->bqB1*filterNState->bqInput[1]
+              + filterNState->bqB2*filterNState->bqInput[2];
+
+  double y = w
+            - filterNState->bqA1*filterNState->bqOutput[1]
+            - filterNState->bqA2*filterNState->bqOutput[2];
+
+  filterNState->bqOutput[0] = y;
+  return y;
+
+
+}
+/***************************************************************************//**
+*   \brief
+*
+*   \param  input :
 *
 *   \return Void.
 *******************************************************************************/
-void decodeDtmf(double input1, int32_t *output1)
+extern  int32_t decodeDtmf(double input1, int32_t *output1)
 {
+  gDtmfTones[0] = filterBiquad(&BPF0,input1);
+  gDtmfTones[1] = filterBiquad(&BPF1,input1);
+  gDtmfTones[2] = filterBiquad(&BPF2,input1);
+  gDtmfTones[3] = filterBiquad(&BPF3,input1);
+  gDtmfTones[4] = filterBiquad(&BPF4,input1);
+  gDtmfTones[5] = filterBiquad(&BPF5,input1);
+  gDtmfTones[6] = filterBiquad(&BPF6,input1);
 
+  dtmfDetection(gDtmfTones);
 }
 
 
 /******************************************************************************
-*   \brief Función que actualiza el estado de los leds para indicar símbolo
+*   \brief Funciï¿½n que actualiza el estado de los leds para indicar sï¿½mbolo
 *           detectado en base a reconocer DTFM.
-*           Al retornar de esta función, los led se actualizan con el último
-*           símbolo detectado.
+*           Al retornar de esta funciï¿½n, los led se actualizan con el ï¿½ltimo
+*           sï¿½mbolo detectado.
 
 *   \param *tonesInputs : puntero a arreglo de canales filtrados
 *
 *   \return Void
 ******************************************************************************/
+
+
 int32_t dtmfDetection(double *tonesInputs)
 {
     double levelAux;
@@ -101,7 +229,7 @@ int32_t dtmfDetection(double *tonesInputs)
     int32_t dtmfRow = 0;
     int32_t dtmfCol = 0;
     /*-----------------------------------------------------------------------*/
-    /* Actualización de amplitudes */
+    /* Actualizaciï¿½n de amplitudes */
     envelopeDetector(tonesInputs);
 
     /* Promedio de canales */
@@ -113,31 +241,31 @@ int32_t dtmfDetection(double *tonesInputs)
             gTonesAmplitud[5] +
             gTonesAmplitud[6] );
     /*-----------------------------------------------------------------------*/
-    /* Detección de canal bajo */
+    /* Detecciï¿½n de canal bajo */
     do
     {
-        /* ¿Será fila 1? */
+        /* ï¿½Serï¿½ fila 1? */
         levelAux = gTonesAmplitud[0] / (gTonesAmplitud[1] + gTonesAmplitud[2] +gTonesAmplitud[3]);
         if (levelAux > DTMF_CH_SNR_RATE)
         {
             dtmfRow = 1;
             break;
         }
-        /* ¿Será fila 2? */
+        /* ï¿½Serï¿½ fila 2? */
         levelAux = gTonesAmplitud[1] / (gTonesAmplitud[0] + gTonesAmplitud[2] +gTonesAmplitud[3]);
         if (levelAux > DTMF_CH_SNR_RATE)
         {
             dtmfRow = 2;
             break;
         }
-        /* ¿Será fila 3? */
+        /* ï¿½Serï¿½ fila 3? */
         levelAux = gTonesAmplitud[2] / (gTonesAmplitud[1] + gTonesAmplitud[0] +gTonesAmplitud[3]);
         if (levelAux > DTMF_CH_SNR_RATE)
         {
             dtmfRow = 3;
             break;
         }
-        /* ¿Será fila 4? */
+        /* ï¿½Serï¿½ fila 4? */
         levelAux = gTonesAmplitud[3] / (gTonesAmplitud[1] + gTonesAmplitud[2] +gTonesAmplitud[0]);
         if (levelAux > DTMF_CH_SNR_RATE)
         {
@@ -148,24 +276,24 @@ int32_t dtmfDetection(double *tonesInputs)
     } while(0);
 
     /*-----------------------------------------------------------------------*/
-    /* Detección de canal alto */
+    /* Detecciï¿½n de canal alto */
     do
     {
-        /* ¿Será columna 1? */
+        /* ï¿½Serï¿½ columna 1? */
         levelAux = gTonesAmplitud[4] / (gTonesAmplitud[5] + gTonesAmplitud[6]);
         if (levelAux > DTMF_CH_SNR_RATE)
         {
             dtmfCol = 1;
             break;
         }
-        /* ¿Será columna 2? */
+        /* ï¿½Serï¿½ columna 2? */
         levelAux = gTonesAmplitud[5] / (gTonesAmplitud[4] + gTonesAmplitud[6]);
         if (levelAux > DTMF_CH_SNR_RATE)
         {
             dtmfCol = 2;
             break;
         }
-        /* ¿Será columna 3? */
+        /* ï¿½Serï¿½ columna 3? */
         levelAux = gTonesAmplitud[6] / (gTonesAmplitud[4] + gTonesAmplitud[5]);
         if (levelAux > DTMF_CH_SNR_RATE)
         {
@@ -176,7 +304,7 @@ int32_t dtmfDetection(double *tonesInputs)
     } while(0);
 
     /*-----------------------------------------------------------------------*/
-    /* Decodificación de número de símbolo */
+    /* Decodificaciï¿½n de nï¿½mero de sï¿½mbolo */
     if ( ( dtmfRow >= 1 ) && (dtmfCol >= 1) )
 	{
         dtmfSymbol = dtmfCol + 3*(dtmfRow - 1);
@@ -190,9 +318,9 @@ int32_t dtmfDetection(double *tonesInputs)
 }
 
 /******************************************************************************
-*   \brief Esta función permite detectar de forma sencilla la envolvente
+*   \brief Esta funciï¿½n permite detectar de forma sencilla la envolvente
 *           de los tonos filtrados.
-*           Una vez se retorna de la función quedan actualizados los valores
+*           Una vez se retorna de la funciï¿½n quedan actualizados los valores
 *           de la variable 'gTonesAmplitud'.
 
 *   \param *tonesInputs : puntero a arreglo de canales filtrados

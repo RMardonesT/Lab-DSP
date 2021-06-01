@@ -1,0 +1,66 @@
+clear all; clc;
+N = [256,500,2048];
+n = 0:1:500;
+fs = 5000;
+
+ws = 2*pi*fs
+
+x1 = sin(2*pi*n/50);
+x2 = cos(2*pi*n/50);
+
+
+
+figure(1)
+
+index_graph =1:7;
+
+for i=1:length(N)
+    ejex = [-ws/2:ws/N(i):ws/2-1];
+    X1 = fftshift(fft(x1,N(i)));
+    
+   
+    %Magnitud
+    mag1 = abs(X1);
+    
+    %real
+    rX1 = real(X1);
+    
+    %imag
+    iX1 = imag(X1);
+    
+    if i==1
+       
+        subplot(3,2,i);
+        plot(ejex,mag1);
+    
+        subplot(3,2,i+1);
+        plot(ejex,rX1);
+
+        subplot(3,2,i+2);
+        plot(ejex,iX1)
+    end
+    
+    
+   
+    
+    
+end
+%%
+for i=1:length(N)
+    ejex = [-ws/2:ws/N(i):ws/2-1];
+ 
+    X2 = fftshift(fft(x2,N(i)));
+       
+    %Magnitud
+    mag2 = abs(X2);
+    
+    %real
+    rX2 = real(X2);
+    
+    %imag
+    iX2 = imag(X2);
+    
+    subplot(3,2,1)
+    plot(ejex,mag1);
+    
+end
