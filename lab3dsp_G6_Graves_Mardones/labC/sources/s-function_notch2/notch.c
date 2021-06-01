@@ -76,6 +76,7 @@ extern double notch(double data1, double data2)
 {
     double output;
     filterInterface(data1, data2, &output);
+    return output;
 }
 
 /******************************************************************************
@@ -123,7 +124,8 @@ static double filterBiquad(bqState_t *filterNState, double filterInput)
 void filterInterface(double input1, double input2, double* output1) {
 
     //Cálculo parámetros filtro
-    double BW = 2 * PI * 100 / 16000;//Se deja en 100 Hz
+    double BW    = 2 * PI * 100 / 16000;    //BW Se deja en 100 Hz (norm)
+    double theta = 2 * PI * input2 / 16000; //Frecuencia central (norm)
 
     double p[] = { cos(BW), -2, cos(BW) };
     double d1 = (-p[2] + sqrt(p[2] * p[2] - 4 * p[1] * p[3])) / 2 * p[1];
@@ -131,17 +133,14 @@ void filterInterface(double input1, double input2, double* output1) {
 
     double d;
     if (abs(d1) < abs(d2)) {
-        d = d2;
-    }
-    else {
         d = d1;
     }
-
-    //b = (1 + d) / 2 * [1 - 2 * cos(theta) 1];
-    //a = [1 - (1 + d) * cos(theta) d];
+    else {
+        d = d2;
+    }
     
     //Actualización de parámetros filtro
-    bqState_t Notch_variable = {
+    static bqState_t Notch_variable = {
                       0,  // a1
                       0, // a2
                       0, //b0
@@ -152,18 +151,14 @@ void filterInterface(double input1, double input2, double* output1) {
                       {0, 0, 0} //Outputs buffer
     };
 
-    (&Notch_variable)->bqA1 = -(1 + d) * cos(input2);
+    (&Notch_variable)->bqA1 = -(1 + d) * cos(theta);
     (&Notch_variable)->bqA2 = d;
     (&Notch_variable)->bqB0 = (1 + d) / 2;
-    (&Notch_variable)->bqB1 = (1 + d) / 2 * -2 * cos(input2);
+    (&Notch_variable)->bqB1 = (1 + d) / 2 * -2 * cos(theta);
     (&Notch_variable)->bqB2 = (1 + d) / 2;
 
 
-    //Llamado a funcion de filtrado
-    filterBiquad(&Notch_variable, input1);
-
-
-    //Actualización de la salida
-    *output1 = (&Notch_variable)->bqOutput[0];
+    //Llamado a funcion de filtrado y seteo de salida
+    *output1 = filterBiquad(&Notch_variable, input1);
 }
 
