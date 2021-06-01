@@ -1,3 +1,4 @@
+clear all; clc
 n = 0:1:500;
 N = 4096;
 fs = 5000;
@@ -12,7 +13,7 @@ X2 = abs(fft(x2,N));
 %Gráficas entre +-fs/2
 figure(1)
 subplot(2,1,1)
-plot([-fs/2:fs/N:fs/2-1],fftshift(X1));
+plot([-fs/2:fs/N:fs/2-fs/N],fftshift(X1));
 title("FFT de x1 con N = 4096 entre [-fs/2,fs/2]")
 xlabel("rad/muestra")
 ylabel("Magnitud ")

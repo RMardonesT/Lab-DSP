@@ -1,0 +1,19 @@
+clear all; clc;
+load("nspeech.mat");
+
+
+x = nspeech;
+N = length(x)
+X = fft(X,N);
+
+f = 0:(N-1)/N)*fs/n
+
+plot()
+% 
+% [nspeech_dtft, w_nspeech] = DTFT(nspeech,0);
+% plot(w_nspeech,(abs(nspeech_dtft)/length(nspeech)))
+
+
+
+%Del grafico theta = 1.323 
+
