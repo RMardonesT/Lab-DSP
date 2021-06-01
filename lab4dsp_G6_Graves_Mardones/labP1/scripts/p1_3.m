@@ -46,25 +46,36 @@ for i=1:length(N)
     if i== 2
         subplot(3,3,i*2);
         plot(ejex,mag1);
-    
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+        ylim([-50,200])
+        
         subplot(3,3, i*2+1);
         plot(ejex,rX1);
-
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
+        
         subplot(3,3,i*2+2);
         plot(ejex,iX1)
-        
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
    
     end
    
    if i== 3
         subplot(3,3,i*3-2);
         plot(ejex,mag1);
-    
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+        ylim([-50,200])
+        
         subplot(3,3,i*3-1);
         plot(ejex,rX1);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
 
         subplot(3,3,i*3);
         plot(ejex,iX1)
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
      
     end
     
@@ -91,12 +102,18 @@ for i=1:length(N)
        
         subplot(3,3,i);
         plot(ejex,mag2);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+        ylim([-50,200])
     
         subplot(3,3,i+1);
         plot(ejex,rX2);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
 
         subplot(3,3,i+2);
         plot(ejex,iX2)
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
         
 
     end
@@ -104,26 +121,37 @@ for i=1:length(N)
     if i== 2
         subplot(3,3,i*2);
         plot(ejex,mag2);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+        ylim([-50,200])
     
         subplot(3,3, i*2+1);
         plot(ejex,rX2);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
 
         subplot(3,3,i*2+2);
         plot(ejex,iX2)
-        
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
    
     end
    
    if i== 3
         subplot(3,3,i*3-2);
         plot(ejex,mag2);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+        ylim([-50,200])
     
         subplot(3,3,i*3-1);
         plot(ejex,rX2);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
 
         subplot(3,3,i*3);
         plot(ejex,iX2)
-     
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        ylim([-50,200])
+        
     end
     
 end

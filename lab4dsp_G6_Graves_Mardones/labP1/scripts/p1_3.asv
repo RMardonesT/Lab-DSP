@@ -28,23 +28,55 @@ for i=1:length(N)
     %imag
     iX1 = imag(X1);
     
+
     if i==1
        
-        subplot(3,2,i);
+        subplot(3,3,i);
         plot(ejex,mag1);
     
-        subplot(3,2,i+1);
+        subplot(3,3,i+1);
         plot(ejex,rX1);
 
-        subplot(3,2,i+2);
+        subplot(3,3,i+2);
         plot(ejex,iX1)
+        
+
+    end
+    
+    if i== 2
+        subplot(3,3,i*2);
+        plot(ejex,mag1);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+        
+        subplot(3,3, i*2+1);
+        plot(ejex,rX1);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        
+        subplot(3,3,i*2+2);
+        plot(ejex,iX1)
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+   
+    end
+   
+   if i== 3
+        subplot(3,3,i*3-2);
+        plot(ejex,mag1);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+        
+        subplot(3,3,i*3-1);
+        plot(ejex,rX1);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+
+        subplot(3,3,i*3);
+        plot(ejex,iX1)
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+     
     end
     
     
-   
-    
-    
 end
+
+figure(2)
 %%
 for i=1:length(N)
     ejex = [-ws/2:ws/N(i):ws/2-1];
@@ -60,7 +92,52 @@ for i=1:length(N)
     %imag
     iX2 = imag(X2);
     
-    subplot(3,2,1)
-    plot(ejex,mag1);
+        if i==1
+       
+        subplot(3,3,i);
+        plot(ejex,mag2);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+    
+        subplot(3,3,i+1);
+        plot(ejex,rX2);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+
+        subplot(3,3,i+2);
+        plot(ejex,iX2)
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        
+
+    end
+    
+    if i== 2
+        subplot(3,3,i*2);
+        plot(ejex,mag2);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+    
+        subplot(3,3, i*2+1);
+        plot(ejex,rX2);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+
+        subplot(3,3,i*2+2);
+        plot(ejex,iX2)
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        
+   
+    end
+   
+   if i== 3
+        subplot(3,3,i*3-2);
+        plot(ejex,mag2);
+        title("Magnitud de FFT de x1 con N =" + num2str(N(i))+ " entre [-\pi,\pi]")
+    
+        subplot(3,3,i*3-1);
+        plot(ejex,rX2);
+        title("Parte Real  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+
+        subplot(3,3,i*3);
+        plot(ejex,iX2)
+        title("Parte Imaginaria  FFT de x1 con N =" + num2str(N(i))+ " entre [\pi,\pi]")
+        
+    end
     
 end
