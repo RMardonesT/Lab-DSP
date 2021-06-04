@@ -1,14 +1,6 @@
-function nextyBuff = IIR_filter(yBuff, aCoeff, x)
-    a0 = a(Coeff1);
-    a1 = aCoeff(2);
-    a2 = aCoeff(3);
+function y = IIR_filter( yBuff ,aCoeff,x)
+    b0 = 1-0.99;
+    y0 = b0*x - aCoeff.*yBuff;
     
-    %Filtrado por ecuación de diferencias
-    output = a1*yBuff(1) + a2*yBuff(2) + x;
-    
-    %Actualización del Buffer para siguiente señal de entrada
-    yBuff(2) = yBuff(1);
-    yBuff(1) = output;
-    
-    nextyBuff = yBuff;   
+    y = [y0 yBuff(1)];
 end

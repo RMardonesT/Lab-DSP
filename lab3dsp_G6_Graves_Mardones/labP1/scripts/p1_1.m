@@ -4,7 +4,7 @@ dt= 0.01;
 t =-1:dt:1-dt;
 N=length(t);
 
-ejex = (1:20)-11;
+ejex = (1:5)-11;
 %% Generación del impulso
 
 delta=dirac(t);
@@ -16,36 +16,123 @@ impulso_rec = zeros(1,N);
 theta = [pi/6,pi/3, pi/2];
 str_theta = ["\pi/6", "\pi/3", "\pi/2"];
 
+
  %% respuesta impulso de filtro recursivo y mediante "filter"
 for  i=1:1:3
-    figure(i)
+    
     angle = theta(i);
     for n=3:1:N
         impulso_rec(n)= delta(n) - 2*cos(angle)*delta(n-1) + delta(n-2);
     end
     
-    figure(i)
-    plot(t, impulso_rec);
-    xlim([-0.2, 0.2])
-    title("Respuesta a impulso del filtro con \omega = \pi/6");
+    subplot(3,1,i)
+    plot(t,impulso_rec)
+    hold on 
+    stem(t,impulso_rec)
+    xlim([-0.05, 0.05])
+    title("Respuesta a impulso del filtro con \omega = "+ str_theta(i), "FontSize",16);
+    xlabel('Muestras','FontSize',14)
+    ylabel("Magnitud", "FontSize",14)
     
            
 end
+
 
 %%  Magnitud de la respuesta impulso 
-
+title("Magnitud respuesta en frecuencia |H(\omega)| \theta ="+ str_theta(i))
 for  i=1:1:3
-    figure(i)
+    
     angle = theta(i);
     for n=3:1:N
         impulso_rec(n)= delta(n) - 2*cos(angle)*delta(n-1) + delta(n-2);
     end
     
-    num = [1 -2*cos(angle) 1];
-    den = [1 0 0];
-    impulso_rec = filter(num,den,delta)
-           
+    
+    [magX,magXdb,w] = plot_mag(impulso_rec,N)
+    
+    if i == 1
+        subplot(3,2,1)
+        plot(w,magX)
+        title("Magnitud respuesta en frecuencia |H(\omega)| \theta ="+ str_theta(i),"FontSize", 22)
+        xlabel("Frecuencia normalizada [rad/s]","FontSize", 20)
+        ylabel("Magnitud [-]","FontSize", 20)
+        
+        subplot(3,2,2)
+        plot(w,magXdb)
+        title("Magnitud respuesta en frecuencia 20log_{10}|H(\omega)| en dB \theta ="+ str_theta(i),"FontSize", 22)
+        xlabel("Frecuencia normalizada [rad/s]","FontSize", 20)
+        ylabel("Magnitud [dB]","FontSize", 20)      
+    end
+    
+   if i == 2
+        subplot(3,2,3)
+        plot(w,magX)
+        title("Magnitud respuesta en frecuencia |H(\omega)| \theta ="+ str_theta(i),"FontSize", 22)
+        xlabel("Frecuencia normalizada [rad/s]","FontSize", 20)
+        ylabel("Magnitud [-]","FontSize", 20)
+            
+        
+        subplot(3,2,4)
+        plot(w,magXdb)
+        title("Magnitud respuesta en frecuencia 20log_{10}|H(\omega)| en dB \theta ="+ str_theta(i),"FontSize", 22)
+        xlabel("Frecuencia normalizada [rad/s]","FontSize", 20)
+        ylabel("Magnitud [dB]","FontSize", 20)      
+   end
+   
+       if i == 3
+        subplot(3,2,5)
+        plot(w,magX)
+        title("Magnitud respuesta en frecuencia |H(\omega)| \theta ="+ str_theta(i),"FontSize", 22)
+        xlabel("Frecuencia normalizada [rad/s]","FontSize", 20)
+        ylabel("Magnitud [-]","FontSize", 20)
+             
+        
+        subplot(3,2,6)
+        plot(w,magXdb)
+        title("Magnitud respuesta en frecuencia 20log_{10}|H(\omega)| en dB \theta ="+ str_theta(i),"FontSize", 22)
+        xlabel("Frecuencia normalizada [rad/s]","FontSize", 20)
+        ylabel("Magnitud [dB]","FontSize", 20)
+    end
+    
+    
+  
 end
+
+%% Superpuesta
+%%  Magnitud de la respuesta impulso 
+title("Magnitud respuesta en frecuencia |H(\omega)| \theta ="+ str_theta(i))
+for  i=1:1:3
+    
+    angle = theta(i);
+    for n=3:1:N
+        impulso_rec(n)= delta(n) - 2*cos(angle)*delta(n-1) + delta(n-2);
+    end
+    
+    
+    [magX,magXdb,w] = plot_mag(impulso_rec,N)
+    
+    subplot(2,1,1)
+    plot(w,magX)
+    title("Magnitud respuesta en frecuencia |H(\omega)|","FontSize", 20)
+    xlabel("Frecuencia normalizada [rad/s]","FontSize", 18)
+    ylabel("Magnitud [-]","FontSize", 18)
+    legend( "\theta ="+ str_theta,"FontSize",16)
+    hold on 
+    
+    subplot(2,1,2)
+    plot(w,magXdb)
+    title("Magnitud respuesta en frecuencia 20log_{10}|H(\omega)| en dB","FontSize", 20)
+    xlabel("Frecuencia normalizada [rad/s]","FontSize", 18)
+    ylabel("Magnitud [dB]","FontSize", 18)
+    legend( "\theta ="+ str_theta,"FontSize",16)
+    hold on 
+    
+
+  
+    end
+    
+
+    
 %% funcion grafica de magnitud
 
 function [mag_X,mag_db,w]  = plot_mag(x,N)
@@ -60,4 +147,5 @@ w = fftshift(w);
 
 mag_db = 20*log10(mag_X);  %magnitud en decibeles
 y = [mag_X,mag_db, w]; 
+
 end
