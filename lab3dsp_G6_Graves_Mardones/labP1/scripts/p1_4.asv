@@ -1,0 +1,20 @@
+
+load('pcm.mat')
+
+[pcm_dtft, w_pcm] = DTFT(pcm,0);
+
+magPcm = abs(pcm_dtft);
+
+plot(w_pcm,magPcm)
+title("DTFT de la señal de audio pcm.mat","FontSize",18)
+ylim([-20,250])
+xlabel("Frecuencia normalizada rad/s","FontSize",16)
+ylabel("Magnitud [-]","FontSize",16)
+grid on
+
+
+
+ % Filtrado iir
+
+% Creando estado del filtro
+

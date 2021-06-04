@@ -60,11 +60,11 @@ double gTonesAmpAux[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 /*---------------------------------------------------------------------------*/
 
 bqState_t BPF0 = {
-                      -1.903126979607119,  // a1
+                     -1.918016631032685 ,  // a1
                       0.976711340720306, // a2
-                       0.988355670360153 , //b0
+                      0.996088350088745 , //b0
                       0, //b1
-                      0.988355670360153,  //b2
+                      0.996088350088745,  //b2
 
                       {0 ,0 ,0}, //Inputs buffer
                       {0,0,0} //Outputs buffer
@@ -196,7 +196,7 @@ static double filterBiquad(bqState_t *filterNState, double filterInput)
 *
 *   \return Void.
 *******************************************************************************/
-extern  int32_t decodeDtmf(double input1, int32_t *output1)
+extern  int32_t decodeDtmf(double input1, double *output1)
 {
   gDtmfTones[0] = filterBiquad(&BPF0,input1);
   gDtmfTones[1] = filterBiquad(&BPF1,input1);
@@ -206,7 +206,9 @@ extern  int32_t decodeDtmf(double input1, int32_t *output1)
   gDtmfTones[5] = filterBiquad(&BPF5,input1);
   gDtmfTones[6] = filterBiquad(&BPF6,input1);
 
-  dtmfDetection(gDtmfTones);
+*output1 =   gDtmfTones[0];
+  //dtmfDetection(gDtmfTones);
+
 }
 
 

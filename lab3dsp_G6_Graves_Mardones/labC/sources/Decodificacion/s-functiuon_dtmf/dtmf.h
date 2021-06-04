@@ -40,7 +40,7 @@ extern "C" {
 #endif
 /*****************************************************************************/
 // Declaración de Funciones
-extern  int32_t decodeDtmf(double input1, int32_t *output1);
+extern  int32_t decodeDtmf(double input1, double *output1);
 
 /*****************************************************************************/
 #ifdef __cplusplus

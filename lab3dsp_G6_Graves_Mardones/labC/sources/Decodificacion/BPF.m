@@ -1,3 +1,8 @@
+format long
+fs = 16000;
+Bw = 2*pi*20/fs;
+theta = 2*pi*697/fs;
+[a,b] = BPF(Bw,theta)
 
 
 function [a, b] = BPF(BW, theta)    
