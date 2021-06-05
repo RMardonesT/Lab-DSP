@@ -1,10 +1,3 @@
-format long
-fs = 16000;
-Bw = 2*pi*20/fs;
-theta = 2*pi*697/fs;
-[a,b] = BPF(Bw,theta)
-
-
 function [a, b] = BPF(BW, theta)    
     
     %Polinomio:
@@ -19,6 +12,6 @@ function [a, b] = BPF(BW, theta)
     end
     
     % Obtención de retornos
-    b = (1+d)/2*[1 0 1];
+    b = (1-d)/2*[1 0 -1];
     a = [1 -(1+d)*cos(theta) d];
 end
