@@ -1,0 +1,31 @@
+Se diseñan  filtros  IIR del tipo Butterworth, Chebyshev, y Elliptic, además de un filtro FIR de tipo equiripple que cumplan con las especificaciones: Frecuencia de banda de paso $fp = 2.4~kHz$ ,frecuencia de corte $f_{sp} = 4~kHz$, Frecuencia de muestreo $fs = 8~kHz$, Ripple en la banda de paso $Rp = 0,5~dB$, rechazo   en frecuencias superiores a la frecuencia de corte $  Rs = 40dB$.
+
+Haciendo uso de los comandos recomendados de MATLAB \texttt{buttord}, \texttt{cheb1ord}, \texttt{ellipord}, y \texttt{firpmord} se identifican como orden óptimo den cada caso para las especificaciones dadas los que se presentan en el cuadro \ref{ordenes}
+
+
+ \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|}
+        \hline
+         Filtro    & FIR/IIR & Orden óptimo \\
+         \hline
+         Butterworth  &  IIR  & 11 \\
+         \hline
+         Chebyshev  & IIR & 6  	 \\
+         \hline
+         Elliptic &   IIR &  4 \\
+         \hline
+        
+         equiripple  & FIR &  16  \\
+         \hline
+
+
+        \end{tabular}
+        \caption{Cuadro resumen de los órdenes óptimos para que cada tipo de filtro estudiado cumpla con las especificaciones dadas.}
+        \label{ordenes}
+    \end{table}
+    
+    El filtro IIR de que requiere menor orden es el de tipo Elliptic, el que le sigue es el de tipo Chebyshev y finalmente el de tipo Butterworth. En el caso del filtro FIR, se puede concluir que este tipo de filtro requiere mayor orden en general para cumplir con las mismas especificaciones que un tipo IIR.
+    
+    
+    

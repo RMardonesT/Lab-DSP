@@ -1,0 +1,179 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%PLANTILLA DE INFORMES V 1.1
+%
+% REQUISITO: IMPORTE EL LOGO DE LA USM CON EL NOMBRE "logousm.png"
+% IMPORTE IMAGENES DE MODULOS, EXTRAER DEL WORD
+%
+% Material de referencia de proposito general:
+% https://users.dcc.uchile.cl/~jbarrios/latex/
+% http://mate.dm.uba.ar/~pdenapo/tutorial-latex/node2.html
+% http://tiburondealambre.blogspot.cl/2012/01/referencias-imagenes-y-tablas-en-latex.html
+% BIBLIOGRAFIA: http://logistica.fime.uanl.mx/miguel/docs/BibTeX.pdf
+%
+% Tratar ecuaciones en latex(muy util):
+% https://ondiz.github.io/cursoLatex/Contenido/05.Ecuaciones.html
+%
+% detector de cosas dibujadas latex: http://detexify.kirelabs.org/classify.html
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------PAQUETES---------------------------%
+% No es necesario tocar nada de esto
+
+\documentclass[12pt,a4paper]{article} % tipo de documento, formato
+
+\usepackage[utf8]{inputenc}    % con tildes
+\usepackage[spanish]{babel}    % arreglar problemas
+
+\usepackage[framed,numbered,final]{mcode} %%MATLAB
+\usepackage{listings}   % Permite incorporar código con d
+
+
+\usepackage{graphicx} % paquete de tratado de imagenes/figuras
+\usepackage{tipa} % para <
+\usepackage{amssymb} % para >=
+
+% paquete extra para ocupar [H] (obliga a que la imagen con graphicx
+% se quede donde se realizó el llamado)
+\usepackage{float}
+
+% CARGAMOS 3 PAQUETES
+% (AMS Math), que mejora el comportamiento y el aspecto de las ecuaciones. 
+% Nos permite, por ejemplo, añadir un asterisco en el entorno equation para crear
+% ecuaciones sin numerar.
+%(AMS Theorem), que define los entornos teorema y demostración.
+%(AMS Symbol), que carga a su vez amsfonts e incluye una colección 
+%de símbolos matemáticos.
+\usepackage{amsmath, amsthm, amssymb} 
+
+\usepackage{enumerate} %permite enumerar de varias formas
+
+\usepackage{multirow, array} % para las tablas
+
+% construccion de un nuevo comando
+\usepackage{lipsum}% http://ctan.org/pkg/lipsum
+\usepackage{xcolor}% http://ctan.org/pkg/xcolor
+\usepackage{xparse}% http://ctan.org/pkg/xparse
+\NewDocumentCommand{\myrule}{O{1pt} O{2pt} O{black}}{%
+  \par\nobreak % don't break a page here
+  \kern\the\prevdepth % don't take into account the depth of the preceding line
+  \kern#2 % space before the rule
+  {\color{#3}\hrule height #1 width\hsize} % the rule
+  \kern#2 % space after the rule
+  \nointerlineskip % no additional space after the rule
+}
+
+%acomoda margenes y tipografia para que quede mas bonito
+\usepackage{geometry}
+\geometry{
+	paper=a4paper, % Change to letterpaper for US letter
+	inner=3cm, % Inner margin
+	outer=3cm, % Outer margin
+	bindingoffset=.5cm, % Binding offset
+	top=2cm, % Top margin
+	bottom=2cm, % Bottom margin
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+
+%---------PORTADA, TABLA DE CONTENIOS Y FIGURAS--------------%
+%Esto será la portada. Solo hay que cambiar los textos
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\textbf{\LARGE Universidad Técnica Federico Santa}\\[0.25cm]
+\textbf{\LARGE María}\\[0.5cm]
+\textbf{\large DEPARTAMENTO DE INGENIERÍA ELECTRONICA}\\[0.2cm]
+\vspace{20pt}
+\includegraphics{logousm.png}\\[1cm]
+
+\par
+\vspace{15pt}
+\textbf{\Large ELO 314 - Laboratorio de procesamiento Digital de Señales}\\
+\vspace{15pt}
+\myrule[1pt][7pt]
+\textbf{\LARGE  Filtros Digitales en MatLab}\\[0.25cm]
+\vspace{15pt}
+\textbf{\large  }\\
+\myrule[1pt][7pt]
+\vspace{55pt}
+\textbf{\large Estudiante \hspace{75pt} ROL}\\
+    \hspace{0pt}Rodrigo Graves\hspace{80pt} 201621009-1 \\
+     Ricardo Mardones      \hspace{60pt} 201621036-9 \\
+   
+
+
+\vspace{30pt}
+\textbf{\large Paralelo: \hspace{30pt} 1}\\
+
+\vspace{35pt}
+\textbf {\large Profesor}\\[0.2cm]
+\Large { Gonzalo Carrasco}\\[0.1cm]
+\textbf {\large Ayudante}\\[0.2cm]
+\Large {Jaime Guzmán}\\[0.1cm]
+\end{center}
+
+\par
+\vfill
+\begin{center}
+\textbf{Fecha : \today}\\
+\end{center}
+
+\end{titlepage}
+
+
+%-------------Lista de figuras y tablas----------%
+\tableofcontents % Hace el índice de contenidos. Latex organiza todo solito
+\clearpage
+
+\listoffigures %lista de figuras
+\clearpage
+
+\listoftables
+\clearpage
+
+
+\section{Efectos de polos y ceros en filtros FIR e IIR}
+\input{Secciones/efectos_polos_zeros}
+\clearpage
+
+\section{Diseño de filtros FIR usando ventanas}
+\input{Secciones/filtros_ventanas}
+\clearpage
+
+
+\section{Diseño de Filtros FIR usando herramientas de MATLAB}
+\input{Secciones/fir_matlab}
+\clearpage
+
+\section{Diseño de Filtros  IIR usando herramientas de MATLAB}
+\input{Secciones/iir_matlab}
+\clearpage
+
+
+\section{Comparación de diseños óptimos de filtros FIR e IIR}
+\input{Secciones/cmp_fir_iir}
+\clearpage
+
+
+\section{Implementación en s-Functions: Filtro Biquad}
+\input{Secciones/biquad}
+
+
+
+\newpage
+\section{Fe de erratas}
+\input{Secciones/erratas}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
