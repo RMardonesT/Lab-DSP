@@ -6,13 +6,16 @@ format long
 f0 = [697 770 852 941 1209 1336 1477];
 fs = 16000;
 
+delta_w = 20
+Bw = 2*pi*delta_w/fs;
+
 B = zeros(7,3);  %%Polinomios del denominador para 697, 770, 941
 A = zeros(7,3);  %%Polinomios del numerador para 697, 770, 941
 
-Bw = 2*pi*60/fs;
 
+%% 
 
-for i =1:3
+for i =1:length(f0)
     
     theta = 2*pi*f0(i)/fs;
     [a,b] = BPF(Bw,theta);
@@ -25,22 +28,8 @@ for i =1:3
        
 end
 
-
-
-Bw = 2*pi*100/fs;
-
-for i =4:7
-    
-    theta = 2*pi*f0(i)/fs;
-    [a,b] = BPF(Bw,theta);
-    
-    for k=1:3
-       B(i,k) = b(k);
-       A(i,k) = a(k);
-    end
-
-       
-end
+A
+B
 
 %%
 for i=1:7
