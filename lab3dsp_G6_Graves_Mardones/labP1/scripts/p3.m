@@ -5,7 +5,7 @@ close all; clear; clc
 %orden
 n1 = 70;
 %frecuencia de corte normalizada
-Fs = 16000; fc_Hz = 3000; fc = fc_Hz/Fs;
+Fs = 16000; fc_Hz = 3000; fc = fc_Hz/(Fs/2);
 %ventanas
 win11 = ones(n1+1,1);win12 = blackman(n1+1);
 %diseño
