@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * \file     Funciones que deben impementar los alumnos
 *
-* \brief    
+* \brief
 *
 * \authors  Gonzalo Carrasco
 *******************************************************************************/
@@ -30,8 +30,8 @@
 /*
  * Bins arbitrarios.
  */
- 
-#define GOERTZEL1_K_BIN	    	(8)			
+
+#define GOERTZEL1_K_BIN	    	(8)
 #define GOERTZEL2_K_BIN	    	(9)
 #define GOERTZEL3_K_BIN	    	(10)
 #define GOERTZEL4_K_BIN	    	(11)
@@ -41,11 +41,27 @@
 
 /*
  * bins para DTMF con N=256 @16 ksps
- */
+bin =  f DTMF *N/Fs
+
+ // 697 -> 11
+ // 770 -> 12
+ // 852 -> 14
+ // 941 -> 15
+ //1209 -> 19
+ // 1336-> 21
+ //1447 -> 23
 
 
+ #define GOERTZEL1_K_BIN	    	(11)
+ #define GOERTZEL2_K_BIN	    	(12)
+ #define GOERTZEL3_K_BIN	    	(14)
+ #define GOERTZEL4_K_BIN	    	(15)
+ #define GOERTZEL5_K_BIN	    	(19)
+ #define GOERTZEL6_K_BIN	    	(21)
+ #define GOERTZEL7_K_BIN	    	(23)
 
 /*
+
  * Constante
  */
 #ifndef M_PI
@@ -111,38 +127,6 @@ static double computeGoertzel(goertzelState_t *state, double filterInput);
 **      FUNCTION DEFINITIONS
 ******************************************************************************/
 
-/******************************************************************************
-*   \brief  Esta función implementa una etapa de filtro biquad
-*
-*   \param filterNState     : puntero a la estructura del biquad a ejecutar
-*   \param filterInput          : señal de entrada al filtro biquad a ejecutar
-*
-*   \return filterOutput        : señal de salida del filtro biquad ejecutado
-******************************************************************************/
-static double filterBiquad(bqState_t *filterNState, double filterInput)
-{
-  //Desplazamiento de datos en la linea de retardo de tamaño 3
-  filterNState->bqInput[2] = filterNState->bqInput[1];
-  filterNState->bqInput[1] = filterNState->bqInput[0];
-  filterNState->bqInput[0] = filterInput;
-
-  filterNState->bqOutput[2] = filterNState->bqOutput[1];
-  filterNState->bqOutput[1] = filterNState->bqOutput[0];
-
-  //y[n] = -a1*y[n] -a2*y[n-2] + b0*x[n] + b1*x[n-1] + b2*x[n-2]
-
-  double w =   filterNState->bqB0*filterNState->bqInput[0]
-              + filterNState->bqB1*filterNState->bqInput[1]
-              + filterNState->bqB2*filterNState->bqInput[2];
-
-  double y = w
-      - filterNState->bqA1 * filterNState->bqOutput[1]
-      - filterNState->bqA2 * filterNState->bqOutput[2];
-            
-  filterNState->bqOutput[0] = y;
-  return y;
-}
-
 
 /***************************************************************************//**
 *   \brief Funci�n prncipal llamada por la sFunction
@@ -162,7 +146,7 @@ void goertzelFunction(double input1,
 				double *output6,
 				double *output7
 				)
-{   
+{
 	*output1 = computeGoertzel(&gGoertzelState1, input1);
 	*output2 = computeGoertzel(&gGoertzelState2, input1);
 	*output3 = computeGoertzel(&gGoertzelState3, input1);
@@ -179,7 +163,7 @@ void goertzelFunction(double input1,
 *   \return  void
 ******************************************************************************/
 extern void initialization(void)
-{	
+{
 	initGoertzel( &gGoertzelState1 , GOERTZEL1_K_BIN );
 	initGoertzel( &gGoertzelState2 , GOERTZEL2_K_BIN );
 	initGoertzel( &gGoertzelState3 , GOERTZEL3_K_BIN );
@@ -188,7 +172,7 @@ extern void initialization(void)
 	initGoertzel( &gGoertzelState6 , GOERTZEL6_K_BIN );
 	initGoertzel( &gGoertzelState6 , GOERTZEL7_K_BIN );
 
-	
+
 	return;
 }
 
@@ -219,7 +203,7 @@ static void initGoertzel(goertzelState_t *state, uint64_t kFrequency)
   state->binMag = 0;
 	// state->
     //...
-	
+
 	return;
 }
 
@@ -236,7 +220,7 @@ static void resetGoertzel(goertzelState_t *state)
 	state->outputs[1] 		= 0.0;
 	state->outputs[2] 		= 0.0;
 	// Se quere retener el �ltimo resultado para el bin sin llevarlos a cero
-	
+
 	return;
 }
 
@@ -255,30 +239,23 @@ static double computeGoertzel(goertzelState_t *state, double filterInput)
 	// filterInput y GOERTZEL_N
 	// Existe la funci�n sqrt() provista por el <math.h>
 
-	// Se crea estructura bqState para aplicar filtro
-	static bqState_t* iirGoertzel = {
-                      -2*(state->cosW),  // a1
-                      1,      		     // a2
-                      0, 				 // b0
-                      0, 				 // b1
-                      1,  				 // b2
+//IIR
+  state->outputs[2] = state->outputs[1];
+  state->outputs[1] = state->outputs[0];
+  state->outputs[0] = filterInput + 2*state->cosW*state->outputs[1] - state->outputs[2];
 
-                      {0 ,0 ,0},         //Inputs buffer
-                      {0,0,0}            //Outputs buffer
-                    };
+//FIR
+  if (GOERTZEL_N <= state->samplesCounter){
+    state->binReal = state->cosW*state->outputs[0] - state->outputs[1];
+    state->binImag = state->sinW*state->outputs[0];
+    state->binMag = sqrt((state->binReal*state->binReal) + (state->binImag*state->binImag)) //elevar al cuadrado y obtener raiz
 
-	if ((state->samplesCounter) < (N-1) ){
-		
-	}
+    resetGoertzel(state);
+  }
 
-	else
-	
-
-	
-	
-	
-	return state->binMag;						
+	return state->binMag;
 }
+
 
 /******************************************************************************
 **      END OF SOURCE FILE
