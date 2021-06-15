@@ -14,7 +14,7 @@ X_fft    = fft(x,N);
 e   = X_DFTsum - X_fft;
 
 format long
-X_mse = sum(abs(e).^2)/N 
+X_mse = sum(abs(e).^2)/N
 
 %Gráficos
 plot(f,abs(e));

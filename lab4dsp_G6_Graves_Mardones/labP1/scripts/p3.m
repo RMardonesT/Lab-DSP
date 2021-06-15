@@ -21,7 +21,7 @@ title("Contenido en frecuencia de nspech.mat usando FFT de N puntos");
 %filtro -> H(w) =  1-2cos(1.323)*e^-jw  + e^-2jw
 %filtro -> H[z] = 1-0.49*z^-1 + z^-2
 
-N = Nx + 3 - 1; %Valor de N para evitar aliasing temporal
+N = Nx;% + 3 - 1; %Valor de N para evitar aliasing temporal
 f = (0:(N-1))*fs/N;
 
 ejw_n = exp(-1j*2*pi*(0:N-1)/N);
