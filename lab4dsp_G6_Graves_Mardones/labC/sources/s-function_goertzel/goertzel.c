@@ -28,8 +28,10 @@
 /*---------------------------------------------------------------------------*/
 
 /*
- * Bins arbitrarios.
+ * Bins:
+
  */
+
 
 #define GOERTZEL1_K_BIN	    	(8)
 #define GOERTZEL2_K_BIN	    	(9)
@@ -51,7 +53,7 @@ bin =  f DTMF *N/Fs
  // 1336-> 21
  //1447 -> 23
 
-
+ */
  #define GOERTZEL1_K_BIN	    	(11)
  #define GOERTZEL2_K_BIN	    	(12)
  #define GOERTZEL3_K_BIN	    	(14)
@@ -60,8 +62,8 @@ bin =  f DTMF *N/Fs
  #define GOERTZEL6_K_BIN	    	(21)
  #define GOERTZEL7_K_BIN	    	(23)
 
-/*
 
+/*
  * Constante
  */
 #ifndef M_PI
@@ -86,16 +88,6 @@ typedef struct goertzelStateTag {
 	double binMag;
 } goertzelState_t;
 
-typedef struct bqState_t {
-    double bqA1;
-    double bqA2;
-    double bqB0;
-    double bqB1;
-    double bqB2;
-    double bqInput[3];
-    double bqOutput[3];
-} bqState_t;
-
 /******************************************************************************
 **      MODULE VARIABLE DEFINITIONS
 ******************************************************************************/
@@ -105,19 +97,11 @@ typedef struct bqState_t {
 /* VARABLES FILTROS GOERTZEL*/
 /*---------------------------------------------------------------------------*/
 goertzelState_t gGoertzelState1 = {0};
-goertzelState_t gGoertzelState2 = {0};
-goertzelState_t gGoertzelState3 = {0};
-goertzelState_t gGoertzelState4 = {0};
-goertzelState_t gGoertzelState5 = {0};
-goertzelState_t gGoertzelState6 = {0};
-goertzelState_t gGoertzelState7 = {0};
 
 
 /******************************************************************************
 **      PRIVATE FUNCTION DECLARATIONS (PROTOTYPES)
 ******************************************************************************/
-
-static double filterBiquad(bqState_t *filterNState, double filterInput);
 
 static void initGoertzel(goertzelState_t *state, uint64_t kFrequency);
 static void resetGoertzel(goertzelState_t *state);
@@ -147,13 +131,14 @@ void goertzelFunction(double input1,
 				double *output7
 				)
 {
-	*output1 = computeGoertzel(&gGoertzelState1, input1);
-	*output2 = computeGoertzel(&gGoertzelState2, input1);
-	*output3 = computeGoertzel(&gGoertzelState3, input1);
-	*output4 = computeGoertzel(&gGoertzelState4, input1);
-	*output5 = computeGoertzel(&gGoertzelState5, input1);
-	*output6 = computeGoertzel(&gGoertzelState6, input1);
-	*output7 = computeGoertzel(&gGoertzelState7, input1);
+
+	*output1 = computeGoertzel(&gGoertzelState1,input1);
+	*output2 = computeGoertzel(&gGoertzelState2,input1);;
+	*output3 = computeGoertzel(&gGoertzelState3,input1);;
+	*output4 = computeGoertzel(&gGoertzelState4,input1);;
+	*output5 = computeGoertzel(&gGoertzelState5,input1);;
+	*output6 = computeGoertzel(&gGoertzelState6,input1);;
+	*output7 = computeGoertzel(&gGoertzelState7,input1);;
 }
 
 /******************************************************************************
@@ -248,13 +233,15 @@ static double computeGoertzel(goertzelState_t *state, double filterInput)
   if (GOERTZEL_N <= state->samplesCounter){
     state->binReal = state->cosW*state->outputs[0] - state->outputs[1];
     state->binImag = state->sinW*state->outputs[0];
-    state->binMag = sqrt((state->binReal*state->binReal) + (state->binImag*state->binImag)); //elevar al cuadrado y obtener raiz
+    state->binMag =  state->binReal + state->binImag //elevar al cuadrado y obtener raiz
 
     resetGoertzel(state);
   }
 
 	return state->binMag;
 }
+
+
 
 
 /******************************************************************************
