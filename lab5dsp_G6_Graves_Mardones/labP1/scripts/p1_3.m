@@ -41,6 +41,3 @@ audiowrite("E_lpc.wav",y_e,FS);
 audiowrite("I_lpc.wav",y_i,FS);
 audiowrite("O_lpc.wav",y_o,FS);
 audiowrite("U_lpc.wav",y_u,FS);
-
-
-
