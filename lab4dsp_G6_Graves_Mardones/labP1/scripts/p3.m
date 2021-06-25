@@ -12,7 +12,7 @@ fx = (0:(Nx-1))*fs/Nx;
 
 figure
 plot(fx,20*log10(abs(X)));xlim([0,4000])
-xlabel("Frecuencia [Hz]");ylabel("Amplitud [-]");
+xlabel("Frecuencia [Hz]");ylabel("Magnitud [dB]");
 title("Contenido en frecuencia de nspech.mat usando FFT de N puntos");
 
 %%% Diseño y gráfico de Filtro en frecuencia
@@ -38,7 +38,7 @@ Y = X.* H;
 
 figure
 plot(f,20*log10(abs(Y)));xlim([0 4000])
-ylabel("Amplitud [-]"); xlabel("Frecuencia [Hz]");
+ylabel("Magnitud [dB]"); xlabel("Frecuencia [Hz]");
 title ("Espectro en frecuencia de señal nspeech.mat filtrada");
 
 %%% Reconstrucción temporal
@@ -48,11 +48,11 @@ figure
 subplot 211
 plot((0:Nx-1)*1/fs,x);
 ylabel("Amplitud [-]"); xlabel("Tiempo [s]");
-title ("Espectro en frecuencia de señal nspeech.mat");
+title ("Señal nspeech.mat");
 subplot 212
 plot((0:length(y)-1)*1/fs,y);
 ylabel("Amplitud [-]"); xlabel("Tiempo [s]");
-title ("Espectro en frecuencia de señal nspeech.mat filtrada");
+title ("Señal nspeech.mat filtrada");
 
 %%% Guardado de audios para comparación
 audiowrite("nspeech_unfiltered.wav",x,fs);

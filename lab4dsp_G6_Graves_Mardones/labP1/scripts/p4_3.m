@@ -11,12 +11,12 @@ f = (0:N-1)*Fs/N;
 X_DFTsum = DFTsum(x); 
 X_fft    = fft(x,N);
 
-e   = X_DFTsum - X_fft;
+e   = abs(X_DFTsum) - abs(X_fft);
 
 format long
-X_mse = sum(abs(e).^2)/N
+X_mse = sum(e.^2)/N;
 
 %Gráficos
-plot(f,abs(e));
-title("Magnitud del Error del espectro, calculado con DFTsum y fft")
+plot(f,e);
+title("Error del espectro calculado con DFTsum y fft")
 xlabel("frecuencia [Hz]"); ylabel("Amplitud [-]");

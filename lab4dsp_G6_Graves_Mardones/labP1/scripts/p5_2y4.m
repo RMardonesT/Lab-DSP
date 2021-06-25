@@ -2,15 +2,17 @@
 close all; clear; clc;
 
 %%% 2) Visualización de matrices DFT
-
-for N = [8 64]
-    A = genAmatrix(N);
+tRe = {'Visualización parte real Matriz DFT N = 8','Visualización parte real Matriz DFT N = 64'}; 
+tIm = {'Visualización parte imaginaria Matriz DFT N = 8','Visualización parte imaginaria Matriz DFT N = 64'};
+N = [8 64];
+for i = [1 2]
+    A = genAmatrix(N(i));
     figure
     colormap(hot); imagesc(real(A));
-    %figure; mesh(real(A));
+    title(tRe(i))
     figure
     colormap(hot); imagesc(imag(A));
-    %figure; mesh(imag(A));
+    title(tIm(i))
 end
 
 %%% 4) Comparación temporal
@@ -22,15 +24,20 @@ delta_fft    = zeros(1,1000-100+1);
 delta_DFTsum = zeros(1,1000-100+1);
 delta_dftmtx = zeros(1,1000-100+1);
 
+
 for N = 100:1000
     f = @() fft(x,N);
-    delta_fft(N-99) = timeit(f);
+    t1 = timeit(f);
     
     g = @() DFTsum(x);
-    delta_DFTsum(N-99) = timeit(g);
+    t2 = timeit(g);
     
-    h = @() dtfmtx(N)*x(1:N);
-    delta_dftmtx(N-99) = timeit(h);    
+    h = @() DFTmatrix(N)*x(1:N);
+    t3 = timeit(h); 
+    
+    delta_fft(N-99)    = t1;
+    delta_DFTsum(N-99) = t2;
+    delta_dftmtx(N-99) = t3;
 end
 
 % Visualización
