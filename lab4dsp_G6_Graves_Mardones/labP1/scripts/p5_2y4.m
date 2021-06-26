@@ -8,14 +8,14 @@ N = [8 64];
 for i = [1 2]
     A = genAmatrix(N(i));
     figure
-    colormap(hot); imagesc(real(A));
+    colormap(hot); imagesc(real(A)); colorbar;
     title(tRe(i))
     figure
-    colormap(hot); imagesc(imag(A));
+    colormap(hot); imagesc(imag(A)); colorbar;
     title(tIm(i))
 end
 
-%%% 4) Comparación temporal
+%% 4) Comparación temporal
 
 Fs = 5000; Nx = 5000; t = (0:Nx-1)/Fs;
 x = cos(2*pi*100*t); % Señal a analizar
