@@ -1,5 +1,5 @@
 %%%%% Parte VI Lab 4 DSP
-
+close all; clear; clc
 %%% 3. Comparación fft_stage con fft
 
 num = 10:19;
@@ -21,20 +21,14 @@ for ctr = 1:10
     
     t1(ctr) = timeit(f1);
     t2(ctr) = timeit(f2);
-    
-    abserr(ctr) = max(abs(fft(x)-fft_stage(x)));
 end
     
 figure
+subplot 211
 plot(num, t1)
-hold on
+xlabel("Muestras en escala logarítmica base 2 [-]"); ylabel("tiempo [s]")
+title("Tiempo de cómputo fft")
+subplot 212
 plot(num, t2)
 xlabel("Muestras en escala logarítmica base 2 [-]"); ylabel("tiempo [s]")
-title("Comparacion de costo computacional entre fft y fft\_stage")
-legend("fft","fft_stage")
-
-figure
-plot(num, abserr)
-xlabel("Muestras en escala logarítmica base 2 [-]");
-ylabel("Máximo error absoluto [-]")
-title("Máximo error absoluto entre fft y fft\_stage para señal de prueba")
+title("Tiempo de cómputo fft\_stage")

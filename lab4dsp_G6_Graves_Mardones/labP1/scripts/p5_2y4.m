@@ -1,5 +1,5 @@
 %%%%% Parte V Lab 4
-close all; clear; clc;
+close all; %clear; clc;
 
 %%% 2) Visualización de matrices DFT
 tRe = {'Visualización parte real Matriz DFT N = 8','Visualización parte real Matriz DFT N = 64'}; 
@@ -20,33 +20,34 @@ end
 Fs = 5000; Nx = 5000; t = (0:Nx-1)/Fs;
 x = cos(2*pi*100*t); % Señal a analizar
 
-delta_fft    = zeros(1,1000-100+1);
-delta_DFTsum = zeros(1,1000-100+1);
-delta_dftmtx = zeros(1,1000-100+1);
+NUMERO = length(100:100:Nx);
+delta_fft    = zeros(1,NUMERO);
+delta_DFTsum = zeros(1,NUMERO);
+delta_dftmtx = zeros(1,NUMERO);
 
 
-for N = 100:1000
+for N = 100:100:Nx
     f = @() fft(x,N);
     t1 = timeit(f);
     
-    g = @() DFTsum(x);
+    g = @() DFTsum(x(1:N));
     t2 = timeit(g);
     
-    h = @() DFTmatrix(N)*x(1:N);
+    h = @() dftmtx(N);
     t3 = timeit(h); 
     
-    delta_fft(N-99)    = t1;
-    delta_DFTsum(N-99) = t2;
-    delta_dftmtx(N-99) = t3;
+    delta_fft(N/100)    = t1;
+    delta_DFTsum(N/100) = t2;
+    delta_dftmtx(N/100) = t3;
 end
 
-% Visualización
+%%% Visualización
 figure
-n = 100:1000;
-plot(n, delta_fft)
+n = 100:100:Nx;
+plot(n, log10(delta_fft))
 hold on
-plot(n, delta_DFTsum); plot(n, delta_dftmtx)
+plot(n, log10(delta_DFTsum)); plot(n, log10(delta_dftmtx))
 xlabel("Largo de vector de entrada");
-ylabel("Tiempo [s]");
+ylabel("Tiempo [s] en escala logaritmica base 10");
 title("Comparación entre métodos de cálculo DFT")
-legend("fft()", "DFTsum()", "dftmtx");
+legend("fft()", "DFTsum()", "dftmtx()");
