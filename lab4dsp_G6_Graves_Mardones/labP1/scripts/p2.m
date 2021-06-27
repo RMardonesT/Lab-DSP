@@ -45,7 +45,7 @@ subplot 211
 plot(f, S_dB - max(S_dB));xlim([0 1000]);
 xlabel("Frecuencia [Hz]");ylabel("Amplitud [dB]");
 title("Contenido en frecuencia de señal limpia en dB (0.1s)");
-subplot 222
+subplot 212
 plot(f, SN_dB - max(SN_dB));xlim([0 1000]);
 xlabel("Frecuencia [Hz]");ylabel("Amplitud [dB]");
 title("Contenido en frecuencia de señal ruidosa en dB (0.1s)");
@@ -58,7 +58,8 @@ s = .5*cos(2*pi*100*t) + 1.5*sin(2*pi*500*t); % señal limpia
 sn = s + n;                                   % señal con ruido
 
 f  = (0:(N-1))*Fs/N;
-
+S = fft(s);
+SN = fft(sn);
 S_dB = 20*log10(abs(S));
 SN_dB = 20*log10(abs(SN));
 
@@ -67,7 +68,7 @@ subplot 211
 plot(f, S_dB - max(S_dB));xlim([0 1000]);
 xlabel("Frecuencia [Hz]");ylabel("Amplitud [dB]");
 title("Contenido en frecuencia de señal limpia en dB (1s)");
-subplot 222
+subplot 212
 plot(f, SN_dB - max(SN_dB));xlim([0 1000]);
 xlabel("Frecuencia [Hz]");ylabel("Amplitud [dB]");
 title("Contenido en frecuencia de señal ruidosa en dB (1s)");
