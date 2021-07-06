@@ -7,7 +7,7 @@ chosen = vowel_a;
 
 %definicion ordenes
 p1=15;
-p2=9;
+p2=2;
 
 %excite
 t =0.5;
@@ -57,4 +57,26 @@ zplane(1,a_p1);
 subplot(2,1,2)
 zplane(1,a_p2);
 
+
+%%  4_4
+
+
+
+[sos,g] = tf2sos(1,a_p1)
+
+figure
+
+for i=1:length(sos)
+
+    biquad = sos(i,:);
+
+    a = biquad(1:3);
+    b = biquad(4:6);
+    [h,w] = freqz(b,a);
+    
+    plot(w,h)
+    legend("Respuesta en frecuencia del filtro biquad numero " + num2str(i))
+
+    hold on
+end
 
