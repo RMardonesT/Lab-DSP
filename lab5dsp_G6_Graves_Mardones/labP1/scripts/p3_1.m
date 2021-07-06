@@ -64,7 +64,7 @@ for i = 1:N
         synth_signal = [synth_signal subsignal];
     elseif (vec_vus(i) == -1) %U
         a = A(i,:);
-        subsignal = filter(1,a,rand(1,L));
+        subsignal = filter(1,a,rand(1,L)-1/2);
         
         %Correccion rms
         k_corr = vec_rms(i)/rms(subsignal);
