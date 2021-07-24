@@ -1,8 +1,8 @@
-%%%%% LAB 5 DSP Parte 3
+%%%%% LAB 5 DSP Parte 2
 close all;clear; clc
 load test_training_signals.mat
 
-%%% Parte 3.1
+%%% Parte 2.1
 signal = training_signal;
 %soundsc(x, fs);
 N = length(signal);
@@ -11,8 +11,8 @@ t = (0:N-1)/fs;
 figure
 plot(t,signal)
 hold on
-xlabel("tiempo [s]"); ylabel("Amplitud")
-title("Señal training\_signal vs tiempo")
+xlabel("tiempo [s]",'FontSize', 24); ylabel("Amplitud",'FontSize', 24)
+title("Señal training\_signal vs tiempo",'FontSize', 24)
 
 %[x,y] = ginput(20);
 load subdivisiones.mat
@@ -30,7 +30,7 @@ for i = 1:19
     rms_sig(i) = rms(signal(n1:n2));
     cruces_ratio(i) = cruces_zero(signal(n1:n2),fs);
 end
-legend('silencio','silencio','s','e','ñ','a','l','e','s','silencio','t','e','m','p','o','r','a','l','e','s')
+legend('silencio3','silencio1','s','e','ñ','a','l','e','s','silencio2','t','e','m','p','o','r','a','l','e','s','FontSize', 12)
 
 
 rms_sig(20) = rms(signal(n2:end));
@@ -47,6 +47,17 @@ rms_u = rms_sig(index_u);
 cruces_s = cruces_ratio(index_s);
 cruces_v = cruces_ratio(index_v);
 cruces_u = cruces_ratio(index_u);
+
+figure
+scatter(rms_s, cruces_s, '+', 'black');
+hold on
+scatter(rms_u, cruces_u, '*', 'green');
+scatter(rms_v, cruces_v, 'o', 'red');
+xlabel("Valor RMS")
+ylabel("Cruces por cero por milisegundo")
+legend("S","U","V")
+grid on
+title("Nube de puntos de segmentos VUS. Cruces por 0 vs RMS")
 
 figure
 stem(index_s, rms_s)

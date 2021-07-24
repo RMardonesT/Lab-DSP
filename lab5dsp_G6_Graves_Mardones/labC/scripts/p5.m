@@ -18,7 +18,7 @@ hold on
 plot(w_inv,mag2db(abs(h_inv)))
 xlim([0 pi])
 xlabel("Frecuencia Normalizada [rad/muestra]")
-ylabel("Amplitud")
+ylabel("Amplitud [dB]")
 title("Comparación respuestas en frecuecnia filtro y filtro inverso")
 legend("Filtro AR", "Filtro inverso")
 

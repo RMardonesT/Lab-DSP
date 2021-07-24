@@ -5,10 +5,10 @@ load test_training_signals.mat
 %%% Parte 2.2
 
 %PARÁMETROS
-UMBRAL_RMS0    = (0.0120794 + 0.00765744)/2;
-UMBRAL_RMS1    = (0.0685488 + 0.0543576)/2;
-UMBRAL_CRUCES0 = 1.5;
-UMBRAL_CRUCES1 = 2.5;
+UMBRAL_RMS0    = .01;
+UMBRAL_RMS1    = .06;
+UMBRAL_CRUCES0 = 2.25;
+UMBRAL_CRUCES1 = 2.8;
 UMBRAL_MIX0    = 0; 
 UMBRAL_MIX1    = 0;
 
@@ -37,7 +37,7 @@ for i = 1:N
     %Obtencion de métricas
     sub_rms   = rms(subsignal); vec_rms(i) = sub_rms;
     sub_ceros = cruces_zero(subsignal,fs);
-    %sub_mix   = 
+   
     
     
     
@@ -52,17 +52,25 @@ for i = 1:N
     end
     
     %2. Cruces por cero
-    if (sub_rms < UMBRAL_CRUCES0)     %S
+    if (sub_ceros < UMBRAL_CRUCES0)     %S
         vus_cruces(i) =  0;    
-    elseif (sub_rms < UMBRAL_CRUCES1) %U
+    elseif (sub_ceros < UMBRAL_CRUCES1) %U
         vus_cruces(i) = -1;
     else
         vus_cruces(i) =  1;        %V 
     end
     
-    %3. Mezcla.    
+    %3. Mezcla.
+    if (sub_ceros < -250*sub_rms + 5)      %S
+        vus_mix(i) =  0;    
+    elseif (sub_rms < UMBRAL_RMS1)          %U
+        vus_mix(i) = -1;
+    else
+        vus_mix(i) =  1;                    %V 
+    end
 end
-%A este punto comparación manual de metodos clasificacion vus
+%A este punto comparación manual de métodos clasificacion vus
+vus_cmp = [vus_cruces; vus_rms; vus_mix];
 
 
 figure

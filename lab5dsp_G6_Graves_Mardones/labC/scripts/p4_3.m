@@ -66,7 +66,9 @@ zplane(1,a_p2);
 
 figure
 
+cell_array ={};
 for i=1:length(sos)
+    cell_array = {cell_array, "Respuesta en frecuencia del filtro biquad número " + num2str(i)};
 
     biquad = sos(i,:);
 
@@ -75,8 +77,8 @@ for i=1:length(sos)
     [h,w] = freqz(b,a);
     
     plot(w,h)
-    legend("Respuesta en frecuencia del filtro biquad numero " + num2str(i))
 
     hold on
 end
+legend(cell_array)
 

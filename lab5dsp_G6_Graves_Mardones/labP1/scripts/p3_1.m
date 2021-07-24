@@ -11,7 +11,8 @@ UMBRAL_RMS1 = (0.0685488 + 0.0543576)/2;
 P  = 15;  % Número de polos en modelo AR
 
 % Importación de señal de prueba
-signal = test_signal;
+signal_no_pad = test_signal;
+signal        = test_signal;
 
 %Número de muestras para ventana de 20 ms
 L = 0.02*fs;
@@ -26,7 +27,7 @@ N = length(signal)/L; %Número de ventanas
 
 vec_vus = zeros(1,N);
 vec_rms = zeros(1,N);
-A       = zeros(N,P+1);
+A       = []; %zeros(N,P+1)
 
 %1. Proceso de compresión
 for i = 1:N
@@ -40,20 +41,20 @@ for i = 1:N
     if (sub_rms < UMBRAL_RMS0)     %S
         vec_vus(i) =  0;    
     elseif (sub_rms < UMBRAL_RMS1) %U
-        vec_vus(i) = -1;
+        vec_vus(i) = -1;        
+        A = [A;mylpc(subsignal,P)]; %Obtención de parámetros filtro 
     else
-        vec_vus(i) =  1;           %V 
-    end
-    
-    %Obtención de parámetros filtro
-    A(i,:) = mylpc(subsignal,P);    
+        vec_vus(i) =  1;           %V
+        A = [A;mylpc(subsignal,P)]; %Obtención de parámetros filtro 
+    end   
 end
 
 %2. Proceso de sintesis
 synth_signal = [];
+ctr = 1;
 for i = 1:N
     if (vec_vus(i) == 1)   %V
-        a = A(i,:);
+        a = A(ctr,:); ctr = ctr + 1;
         x = exciteV(L,fs/100); %100Hz
         subsignal = filter(1,a,x);
         
@@ -63,7 +64,7 @@ for i = 1:N
         
         synth_signal = [synth_signal subsignal];
     elseif (vec_vus(i) == -1) %U
-        a = A(i,:);
+        a = A(ctr,:); ctr = ctr + 1;
         subsignal = filter(1,a,rand(1,L)-1/2);
         
         %Correccion rms
