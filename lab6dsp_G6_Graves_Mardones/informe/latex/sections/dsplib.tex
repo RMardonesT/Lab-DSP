@@ -1,0 +1,76 @@
+\section{Estudio de la API de una librería: DSPLIB}
+
+\begin{enumerate}
+    \item  La librería \textit{DSPLIB} provee una serie de funciones diseñadas y optimizadas para facilitar el procesamiento digital de señales en tarjetas físicas, simplificando la implementación en lenguaje C, que suele ser el utilizado en este tipo de dispositivos. El que dichas funciones estén optimizadas con un objetivo claro permite reducir el tiempo de ejecución necesario para este tipo de procesamientos, que suele ser un punto de consideración al desarrollar proyectos que trabajen en tiempo real. Algunas de estas funciones se listan a continuación
+
+
+
+\begin{itemize}
+    
+    \item \textbf{DSPF\_sp\_biquad:} Realiza  filtrado de una señal usando un filtro biquad.
+    \item \textbf{DSPF\_sp\_convol:} Efectúa la convolución entre dos arreglos de entrada.
+    \item \textbf{DSPF\_sp\_fir\_gen:} Realiza  filtrado FIR a una matriz de entrada  a partir de vectores con los coeficientes del filtro.
+    \item \textbf{DSPF\_sp\_iir:}  Realiza  filtrado IIR a una matriz de entrada  a partir de vectores con los coeficientes del filtro.
+    \item \textbf{DSPF\_sp\_mat\_mul:} Multiplica dos matrices de entrada 
+    
+\end{itemize}
+
+
+\item A continuación se detalla la forma de uso de algunas de las funciones antes mencionadas
+
+
+
+ \textbf{DSPF\_sp\_biquad} \\
+    Esta función realiza el filtrado de una señal cuyas muestras se  almacenan en un arreglo, recibe seis parámetros en su implementación. La señal resultante se almacena en el arreglo \textit{y} y la función no devuelve ningún valor (\textit{void}) pues trabaja directamente con punteros a los parámetros.
+    
+\\
+    
+\textbf{Prototipo función}    
+
+\begin{lstlisting}
+void DSPF_sp_biquad(float *restrict x, float *b, float *a,
+                    float *delay, float *restrict y, const int n)
+\end{lstlisting}
+
+\textbf{Parámetros}
+
+\begin{itemize}
+    \item float $*$x:  Puntero al arreglo de entrada  cuyo largo debe ser  \textit{n}, donde n corresponde al último de los parámetros requerido por la función y que se describe a continuación.
+    \item float $*$b: Puntero al arreglo de coeficientes $B_k$ del filtro biquad cuyo largo debe ser  3. En este arreglo los coeficientes deben aparecer en el orden  {$b_0$, $b_1$, $b_2$}
+    \item float $*$a:  Puntero al arreglo de coeficientes $A_k$ del filtro biquad cuyo largo debe ser  3. En este arreglo los coeficientes deben aparecer en el orden  {$a_0$, $a_1$, $a_2$}
+    \item float $*$delay: Puntero arreglo de coeficientes de retraso asociado al filtro. Debe tener largo 2.
+    \item float $*$y: Puntero al arreglo de valores de salida cuyo largo debe ser \textit{n},  donde n corresponde al último de los parámetros requerido por la función y que se describe a continuación.
+    \item const int n: Largo de los arreglos de entrada y de salida. Debe ser un número par.
+\end{itemize}
+
+
+    
+\textbf{DSPF\_sp\_mat\_mul}
+
+\\ \\
+
+La función realiza la multiplicación de dos matrices de entrada, cuyas dimensiones deben ser consistentes para poder ser multiplicadas. El resultado se almacena en la matriz de salida \textit{y} y la función no retorna nada (\textit{void}) pues trabaja directamente con los punteros a los parámetros.
+
+\textbf{Prototipo función}    
+
+\begin{lstlisting}
+void DSPF_sp_mat_mul(float *x1, const int r1, const int c1, 
+                float *x2, const int c2, float *restrict y)
+
+\end{lstlisting}
+
+\textbf{Parámetros}
+
+\begin{itemize}
+    \item float $*$x:  Puntero a la primera matriz de entrada, de $r1 \cdot c1$ elementos.
+    \item const int r1: Número de filas de la primera matriz de entrada.
+    \item const int c1: Número de columnas de la primera matriz de entrada.
+
+    \item float $*$x2: Puntero a la segunda  matriz de entrada, de $c1 \cdot c2$ elementos.
+    \item const int c2:Número de columnas de la segunda matriz de entrada.
+    
+     \item *restrict y: Puntero a la matriz resultante a partir de la multiplicación, el tamaño de este resultado es de $r1$ filas y $c2$ columnas.
+\end{itemize}
+
+
+\end{enumerate}
